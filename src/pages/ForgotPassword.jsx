@@ -1,8 +1,41 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Alert from "../components/Alert";
+import axiosClient from "../config/axiosClient";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [alert, setAlert] = useState({});
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (email === "" || email.length < 6) {
+      setAlert({
+        msg: "El correo es inválido",
+        error: true,
+      });
+      return;
+    }
+
+    try {
+      const { data } = await axiosClient.post(`/user/reset-password`, {
+        email,
+      });
+      setAlert({
+        msg: data.msg,
+        error: false,
+      });
+      setEmail("");
+    } catch (error) {
+      setAlert({
+        msg: error.response.data.msg,
+        error: true,
+      });
+    }
+  };
+
+  const { msg } = alert;
 
   return (
     <>
@@ -10,7 +43,9 @@ const ForgotPassword = () => {
         Recuperar contraseña
       </h1>
 
-      <form 
+      {msg && <Alert alert={alert} />}
+
+      <form
         className="my-10 bg-white shadow rounded-lg p-10"
         onSubmit={handleSubmit}
       >

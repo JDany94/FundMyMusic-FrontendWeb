@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Alert from "../components/Alert";
-import axios from "axios";
+import axiosClient from "../config/axiosClient";
 
 const Singup = () => {
   const [email, setEmail] = useState("");
@@ -47,8 +47,7 @@ const Singup = () => {
         password,
         role: "Artist",
       };
-      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user`, JSON);
-
+      const { data } = await axiosClient.post(`/user`, JSON);
       setAlert({
         msg: data.msg,
         error: false,
@@ -60,7 +59,6 @@ const Singup = () => {
       setPhone("");
       setPassword("");
       setRePassword("");
-
     } catch (error) {
       setAlert({
         msg: error.response.data.msg,
