@@ -78,7 +78,7 @@ const FormConcert = () => {
       return;
     }
 
-    if (capacity <= 0 || minimumSales < 0 || price <= 0) {
+    if (parseInt(capacity) <= 0 || parseInt(minimumSales) < 0 || parseInt(price) <= 0) {
       showAlert({
         msg: "Capacidad, precio o ventas minimas incorrectas",
         error: true,
@@ -86,7 +86,7 @@ const FormConcert = () => {
       return;
     }
 
-    if (capacity < minimumSales) {
+    if ( parseInt(capacity) < parseInt(minimumSales)) {
       showAlert({
         msg: "Las ventas minimas no pueden ser mayores que la capacidad",
         error: true,
@@ -106,7 +106,7 @@ const FormConcert = () => {
       gift,
       price,
     };
-
+ 
     await submitConcert(JSON);
 
     setId(null);
