@@ -11,6 +11,7 @@ const ConcertsProvider = ({ children }) => {
   const [concert, setConcert] = useState({});
   const [loading, setLoading] = useState(false);
   const [modalDeleteConcert, setModalDeleteConcert] = useState(false);
+  const [enabledSwitch, setEnabledSwitch] = useState(false);
   const [searcher, setSearcher] = useState(false);
 
   const navigate = useNavigate();
@@ -196,6 +197,10 @@ const ConcertsProvider = ({ children }) => {
     setModalDeleteConcert(!modalDeleteConcert);
   };
 
+  const handleEnabledSwitch = () => {
+    setEnabledSwitch(!enabledSwitch);
+  };
+
   const handleSearcher = () => {
     setSearcher(!searcher);
   };
@@ -222,6 +227,8 @@ const ConcertsProvider = ({ children }) => {
         handleSearcher,
         searcher,
         singOutConcerts,
+        handleEnabledSwitch,
+        enabledSwitch,
       }}
     >
       {children}

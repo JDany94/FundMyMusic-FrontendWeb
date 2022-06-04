@@ -7,7 +7,8 @@ import Alert from "../components/Alert";
 
 const Concert = () => {
   const params = useParams();
-  const { getConcert, concert, loading, handleModalDeleteConcert, alert } = useConcerts();
+  const { getConcert, concert, loading, handleModalDeleteConcert, alert } =
+    useConcerts();
 
   const [modal, setModal] = useState(false);
 
@@ -40,7 +41,7 @@ const Concert = () => {
       <div className="flex justify-between mb-5">
         <h1 className="font-black text-4xl">{title}</h1>
         <div>
-          {status === "Open" ? (
+          {status === "Fecha Abierta" ? (
             <div className="flex items-center gap-2 mb-2 text-gray-400 hover:text-black">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +95,7 @@ const Concert = () => {
       <div className="flex items-center">
         <span
           className={`${
-            status === "Open" ? "bg-green-600" : "bg-red-600"
+            status === "Fecha Abierta" ? "bg-green-600" : "bg-red-600"
           } px-2 py-1 text-white uppercase text-sm rounded-full`}
         >
           {status}
@@ -125,7 +126,9 @@ const Concert = () => {
           <p className="pb-2 text-sm text-gray-500 uppercase font-bold">
             Recompensas por pre-venta
           </p>
-          <p className="pb-3 text-sm text-gray-500 uppercase">{gift}</p>
+          <p className="pb-3 text-sm text-gray-500 uppercase">
+            {gift === "" ? "N/A" : gift}
+          </p>
         </div>
       </div>
 

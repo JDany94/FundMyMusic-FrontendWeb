@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useConcerts from "../hooks/useConcerts";
 import Alert from "./Alert";
 import Loading from "./Loading";
+import SwitchForm from "./Switch";
 
 const GENRE = [
   "Electronic",
@@ -36,9 +37,8 @@ const FormConcert = () => {
   const [gift, setGift] = useState("");
   const [price, setPrice] = useState("");
 
-  const { showAlert, alert, submitConcert, concert, loading } = useConcerts();
-
-  const navigate = useNavigate();
+  const { showAlert, alert, submitConcert, concert, loading, enabledSwitch } =
+    useConcerts();
 
   const params = useParams();
 
@@ -73,6 +73,22 @@ const FormConcert = () => {
     ) {
       showAlert({
         msg: "Faltan campos por llenar",
+        error: true,
+      });
+      return;
+    }
+
+    if (capacity <= 0 || minimumSales < 0 || price <= 0) {
+      showAlert({
+        msg: "Capacidad, precio o ventas minimas incorrectas",
+        error: true,
+      });
+      return;
+    }
+
+    if (capacity < minimumSales) {
+      showAlert({
+        msg: "Las ventas minimas no pueden ser mayores que la capacidad",
         error: true,
       });
       return;
@@ -137,7 +153,7 @@ const FormConcert = () => {
           value={genre}
           onChange={(e) => setGenre(e.target.value)}
         >
-          <option value="">-- Seleccionar --</option>
+          <option value="">-- Género --</option>
           {GENRE.map((option) => (
             <option key={option}>{option}</option>
           ))}
@@ -189,16 +205,23 @@ const FormConcert = () => {
           onChange={(e) => setMinimumSales(e.target.value)}
         />
       </div>
-      <div className="mb-5">
-        <input
-          type="text"
-          // TODO: poner boton de si poner o no recompensa y pensar el placeholder
-          placeholder="Recompensas por la pre-venta"
-          className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
-          value={gift}
-          onChange={(e) => setGift(e.target.value)}
-        />
+      <div className="flex justify-center items-center mb-5">
+        <p className="w-full mt-2 text-gray-700 uppercase text-sm font-bold">
+          Recompensas para la pre-venta
+        </p>
+        <SwitchForm />
       </div>
+      {enabledSwitch && (
+        <div className="mb-5">
+          <input
+            type="text"
+            placeholder="Detalles de la recompensa"
+            className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+            value={gift}
+            onChange={(e) => setGift(e.target.value)}
+          />
+        </div>
+      )}
       <div className="mb-5">
         <input
           type="number"

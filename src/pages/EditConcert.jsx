@@ -1,6 +1,6 @@
 import useConcerts from "../hooks/useConcerts";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import FormConcert from "../components/FormConcert";
 
 const EditConcert = () => {

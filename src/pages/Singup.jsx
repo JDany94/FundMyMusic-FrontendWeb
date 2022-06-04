@@ -46,6 +46,13 @@ const Singup = () => {
       });
       return;
     }
+    if (phone.length < 9) {
+      setAlert({
+        msg: "Teléfono no válido",
+        error: true,
+      });
+      return;
+    }
     setAlert({});
     setLoading(true);
 
@@ -81,7 +88,7 @@ const Singup = () => {
     } catch (error) {
       setLoading(false);
       showAlert({
-        msg: "Error de conexión",
+        msg: error.response.data.msg,
         error: true,
       });
       console.log(error);

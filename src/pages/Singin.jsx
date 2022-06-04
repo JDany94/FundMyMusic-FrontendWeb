@@ -48,7 +48,7 @@ const Singin = () => {
     } catch (error) {
       setLoading(false);
       showAlert({
-        msg: "Error de conexión",
+        msg: error.response.data.msg,
         error: true,
       });
       console.log(error);
