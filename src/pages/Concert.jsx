@@ -3,10 +3,11 @@ import useConcerts from "../hooks/useConcerts";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import ModalDeleteConcert from "../components/ModalDeleteConcert";
+import Alert from "../components/Alert";
 
 const Concert = () => {
   const params = useParams();
-  const { getConcert, concert, loading, handleModalDeleteConcert } = useConcerts();
+  const { getConcert, concert, loading, handleModalDeleteConcert, alert } = useConcerts();
 
   const [modal, setModal] = useState(false);
 
@@ -29,10 +30,13 @@ const Concert = () => {
     soldOut,
   } = concert;
 
+  const { msg } = alert;
+
   if (loading) return <Loading />;
 
   return (
     <>
+      {msg && <Alert alert={alert} />}
       <div className="flex justify-between mb-5">
         <h1 className="font-black text-4xl">{title}</h1>
         <div>
