@@ -2,11 +2,25 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
+import useAuth from "../hooks/useAuth";
+import Loading from "../components/Loading";
 
 const Singin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const { setAuth, auth } = useAuth();
+
+  const navigate = useNavigate();
+
+  const showAlert = (alert) => {
+    setAlert(alert);
+    setTimeout(() => {
+      setAlert({});
+    }, 5000);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,19 +32,26 @@ const Singin = () => {
       });
       return;
     }
+    setAlert({});
+    setLoading(true);
 
     try {
       const { data } = await axiosClient.post(`/user/auth`, {
         email,
         password,
       });
-      setAlert({});
       localStorage.setItem("x-auth-token", data.token);
+      setAuth(data);
+
+      setLoading(false);
+      navigate("/dashboard");
     } catch (error) {
-      setAlert({
-        msg: error.response.data.msg,
+      setLoading(false);
+      showAlert({
+        msg: "Error de conexión",
         error: true,
       });
+      console.log(error);
     }
   };
 
@@ -43,9 +64,10 @@ const Singin = () => {
       </h1>
 
       {msg && <Alert alert={alert} />}
+      {loading && <Loading />}
 
       <form
-        className="my-10 bg-white shadow rounded-lg p-10"
+        className="my-10 bg-white shadow rounded-lg p-5"
         onSubmit={handleSubmit}
       >
         <div className="my-5">

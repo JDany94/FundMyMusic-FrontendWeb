@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
+import Loading from "../components/Loading";
 
 const Singup = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,16 @@ const Singup = () => {
   const [password, setPassword] = useState("");
   const [repassword, setRePassword] = useState("");
   const [alert, setAlert] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const showAlert = (alert) => {
+    setAlert(alert);
+    setTimeout(() => {
+      setAlert({});
+    }, 5000);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +47,7 @@ const Singup = () => {
       return;
     }
     setAlert({});
+    setLoading(true);
 
     // API
     try {
@@ -53,17 +65,26 @@ const Singup = () => {
         error: false,
       });
 
+      setLoading(false);
+
       setEmail("");
       setName("");
       setSurName("");
       setPhone("");
       setPassword("");
       setRePassword("");
+
+      setTimeout(() => {
+        setAlert({});
+        navigate("/");
+      }, 4000);
     } catch (error) {
-      setAlert({
-        msg: error.response.data.msg,
+      setLoading(false);
+      showAlert({
+        msg: "Error de conexión",
         error: true,
       });
+      console.log(error);
     }
   };
 
@@ -76,6 +97,7 @@ const Singup = () => {
       </h1>
 
       {msg && <Alert alert={alert} />}
+      {loading && <Loading />}
 
       <form
         className="my-10 bg-white shadow rounded-lg p-10"

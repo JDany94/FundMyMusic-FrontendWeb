@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axiosClient from "../config/axiosClient";
 import Alert from "../components/Alert";
+import Loading from "../components/Loading";
 
 const NewPassword = () => {
   const [password, setPassword] = useState("");
@@ -9,20 +10,34 @@ const NewPassword = () => {
   const [confirmed, setConfirmed] = useState(false);
   const [validToken, setValidToken] = useState(false);
   const [alert, setAlert] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const params = useParams();
   const { token } = params;
 
+  const showAlert = (alert) => {
+    setAlert(alert);
+    setTimeout(() => {
+      setAlert({});
+    }, 5000);
+  };
+
   useEffect(() => {
     const checkToken = async () => {
+      setLoading(true);
       try {
         await axiosClient.get(`/user/reset-password/${token}`);
         setValidToken(true);
+        setLoading(false);
       } catch (error) {
-        setAlert({
-          msg: error.response.data.msg,
+        setLoading(false);
+        showAlert({
+          msg: "Error de conexión",
           error: true,
         });
+        console.log(error);
       }
     };
     checkToken();
@@ -45,11 +60,14 @@ const NewPassword = () => {
       });
       return;
     }
+    setAlert({});
+    setLoading(true);
 
     try {
       const { data } = await axiosClient.post(`/user/reset-password/${token}`, {
         password,
       });
+      setLoading(false);
       setAlert({
         msg: data.msg,
         error: false,
@@ -57,11 +75,17 @@ const NewPassword = () => {
       setConfirmed(true);
       setPassword("");
       setRePassword("");
+      setTimeout(() => {
+        setAlert({});
+        navigate("/");
+      }, 4000);
     } catch (error) {
-      setAlert({
-        msg: error.response.data.msg,
+      setLoading(false);
+      showAlert({
+        msg: "Error de conexión",
         error: true,
       });
+      console.log(error);
     }
   };
 
@@ -74,6 +98,7 @@ const NewPassword = () => {
       </h1>
 
       {msg && <Alert alert={alert} />}
+      {loading && <Loading />}
 
       {validToken && (
         <form

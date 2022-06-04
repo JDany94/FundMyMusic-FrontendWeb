@@ -6,7 +6,7 @@ node_modules
 /build
 
 # misc
-.env.local
+.env
 
 package-lock.json
 

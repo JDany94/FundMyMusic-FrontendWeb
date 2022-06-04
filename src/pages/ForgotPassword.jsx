@@ -2,10 +2,19 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
+import Loading from "../components/Loading";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [alert, setAlert] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const showAlert = (alert) => {
+    setAlert(alert);
+    setTimeout(() => {
+      setAlert({});
+    }, 5000);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,20 +27,26 @@ const ForgotPassword = () => {
       return;
     }
 
+    setAlert({});
+    setLoading(true);
+
     try {
       const { data } = await axiosClient.post(`/user/reset-password`, {
         email,
       });
+      setLoading(false);
       setAlert({
         msg: data.msg,
         error: false,
       });
       setEmail("");
     } catch (error) {
-      setAlert({
-        msg: error.response.data.msg,
+      setLoading(false);
+      showAlert({
+        msg: "Error de conexión",
         error: true,
       });
+      console.log(error);
     }
   };
 
@@ -44,6 +59,7 @@ const ForgotPassword = () => {
       </h1>
 
       {msg && <Alert alert={alert} />}
+      {loading && <Loading />}
 
       <form
         className="my-10 bg-white shadow rounded-lg p-10"
