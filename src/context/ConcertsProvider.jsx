@@ -2,6 +2,7 @@ import { useState, useEffect, createContext } from "react";
 import axiosClient from "../config/axiosClient";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 
 const ConcertsContext = createContext();
 
@@ -78,10 +79,7 @@ const ConcertsProvider = ({ children }) => {
       );
       setConcerts(syncConcerts);
       setLoading(false);
-      showAlert({
-        msg: "Concierto editado correctamente",
-        error: false,
-      });
+      Swal.fire("Correcto", "Concierto editado correctamente", "success");
       navigate(`/dashboard/${data._id}`);
     } catch (error) {
       setLoading(false);
@@ -114,10 +112,7 @@ const ConcertsProvider = ({ children }) => {
 
       setConcerts([...concerts, data]);
       setLoading(false);
-      showAlert({
-        msg: "Concierto creado correctamente",
-        error: false,
-      });
+      Swal.fire("Correcto", "Concierto creado correctamente", "success");
       navigate("/dashboard");
     } catch (error) {
       setLoading(false);
@@ -178,10 +173,7 @@ const ConcertsProvider = ({ children }) => {
       );
       setConcerts(syncConcerts);
       setLoading(false);
-      showAlert({
-        msg: data.msg,
-        error: false,
-      });
+      Swal.fire("Correcto", data.msg, "success");
       navigate("/dashboard");
     } catch (error) {
       setLoading(false);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import logo from "../images/logo.png";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
 import Loading from "../components/Loading";
@@ -50,15 +51,21 @@ const ConfirmAccount = () => {
 
   return (
     <>
-      <h1 className="text-sky-600 font-black text-6xl capitalize">
+      <div className="flex flex-col items-center">
+        <Link to={"/"}>
+          {" "}
+          <img src={logo} alt="" />
+        </Link>
+      </div>
+      <h1 className="pt-8 pb-3 text-white font-black uppercase text-3xl text-center">
         Confirma tu cuenta
       </h1>
-      <div className="mt-20 md:mt-10 shadow-lg px-5 py-10 rounded-xl bg-white">
+      <div>
         {msg && <Alert alert={alert} />}
         {loading && <Loading />}
         {confirmed && (
           <Link
-            className="block text-center my-5 text-slate-600 uppercase text-sm"
+            className="block text-center my-5 text-white uppercase text-sm"
             to="/"
           >
             Iniciar Sesión

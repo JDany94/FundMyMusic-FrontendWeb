@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import logo from "../images/logo.png";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
 import Loading from "../components/Loading";
@@ -99,23 +100,23 @@ const Singup = () => {
 
   return (
     <>
-      <h1 className="text-sky-600 font-black text-6xl capitalize">
-        Registrarse
-      </h1>
+      <div className="flex flex-col items-center">
+        <Link to={"/"}>
+          {" "}
+          <img src={logo} alt="" />
+        </Link>
+      </div>
 
       {msg && <Alert alert={alert} />}
       {loading && <Loading />}
 
-      <form
-        className="my-10 bg-white shadow rounded-lg p-10"
-        onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit}>
         <div className="my-5">
           <input
             id="email"
             type="email"
             placeholder="Email"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -125,7 +126,7 @@ const Singup = () => {
             id="name"
             type="text"
             placeholder="Nombre"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -135,7 +136,7 @@ const Singup = () => {
             id="surname"
             type="text"
             placeholder="Apellidos"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
             value={surname}
             onChange={(e) => setSurName(e.target.value)}
           />
@@ -145,7 +146,7 @@ const Singup = () => {
             id="phone"
             type="number"
             placeholder="Teléfono"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
@@ -155,7 +156,7 @@ const Singup = () => {
             id="password"
             type="password"
             placeholder="Contraseña"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -165,7 +166,7 @@ const Singup = () => {
             id="re-password"
             type="password"
             placeholder="Confirmar Contraseña"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
             value={repassword}
             onChange={(e) => setRePassword(e.target.value)}
           />
@@ -173,13 +174,13 @@ const Singup = () => {
         <input
           type="submit"
           value="Registrarse"
-          className="bg-sky-700 mb-5 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
+          className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
         />
       </form>
 
       <nav className="lg:flex lg:justify-between">
         <Link
-          className="block text-center my-5 text-slate-600 uppercase text-sm"
+          className="block text-center my-5 text-white uppercase text-sm"
           to="/"
         >
           ¿Ya tienes una cuenta? Iniciar Sesión

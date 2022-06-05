@@ -1,10 +1,14 @@
+import logoHeader from "../images/logoHeader.png";
+import { Link } from "react-router-dom";
+
 const Header = () => {
   return (
-    <header className="px-4 py-5 bg-white border-b">
-      <div className="items-center">
-        <h2 className="text-4xl text-sky-600 font-bold text-center">
-          FundMyMusic
-        </h2>
+    <header className="px-4 py-5 bg-gray-900">
+      <div className="flex flex-col items-center">
+        <Link to={"/dashboard"}>
+          {" "}
+          <img src={logoHeader} alt="" />
+        </Link>
       </div>
     </header>
   );

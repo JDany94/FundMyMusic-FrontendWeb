@@ -3,7 +3,7 @@ const Loading = () => {
     <div className="flex items-center justify-center bg-gradient-to-br text-center p-3 rounded-xl uppercase text-white font-bold text-sm my-10">
       <button
         type="button"
-        className="flex items-center rounded-lg bg-sky-600 px-4 py-2 text-white"
+        className="flex items-center rounded-lg bg-[#830700] px-4 py-2 text-white"
         disabled
       >
         <svg

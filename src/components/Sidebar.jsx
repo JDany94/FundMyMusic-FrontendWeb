@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useConcerts from "../hooks/useConcerts";
 import Searcher from "./Searcher";
@@ -7,56 +7,102 @@ const Sidebar = () => {
   const { auth, singOutAuth } = useAuth();
   const { handleSearcher, singOutConcerts } = useConcerts();
 
+  const navigate = useNavigate();
+
   const handleSingOut = () => {
     singOutAuth();
     singOutConcerts();
     localStorage.removeItem("x-auth-token");
   };
 
+  const handleClickNewConcert = () => {
+    navigate("/dashboard/new-concert");
+  };
+
+  const handleClickConcerts = () => {
+    navigate("/dashboard");
+  };
+
   return (
-    <aside className="md:w-1/3 lg:w-1/5 xl:w-1/6 px-5 py-10">
-      <p className="text-xl font-bold text-center">{auth.name}</p>
-      <Link
-        to="/dashboard"
-        className="bg-sky-600 w-full p-3 text-white uppercase font-bold block mt-5 text-center rounded-lg"
-      >
-        Conciertos
-      </Link>
-      <Link
-        to="new-concert"
-        className="bg-sky-600 w-full p-3 text-white uppercase font-bold block mt-5 text-center rounded-lg"
-      >
-        Publicar
-      </Link>
+    <aside className="flex sm:flex-row md:flex-col sm:justify-center md:justify-start bg-gray-900 px-7 gap-5">
+      
       <button
-        type="button"
-        className="bg-sky-600 w-full p-3 text-white uppercase font-bold block mt-5 text-center rounded-lg"
-        onClick={handleSearcher}
+        onClick={handleClickConcerts}
+        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mb-4 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
       >
-        Buscar
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+          />
+        </svg>
+      </button>
+      <button
+        onClick={handleClickNewConcert}
+        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mb-4 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"
+          />
+        </svg>
       </button>
       <button
         type="button"
-        className="bg-sky-600 w-full p-3 text-white uppercase font-bold block mt-5 rounded-lg"
+        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mb-4 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+        onClick={handleSearcher}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mb-4 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
         onClick={handleSingOut}
       >
-        <div className="flex gap-2">
-          <div className="flex-auto text-right">Cerrar Sesión</div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 flex-auto"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
-          </svg>
-        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
       </button>
       <Searcher />
     </aside>

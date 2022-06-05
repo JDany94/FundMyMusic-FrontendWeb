@@ -33,6 +33,7 @@ const Concert = () => {
 
   const { msg } = alert;
 
+
   if (loading) return <Loading />;
 
   return (

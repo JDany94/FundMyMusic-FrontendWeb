@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import logo from "../images/logo.png";
 import axiosClient from "../config/axiosClient";
 import Alert from "../components/Alert";
 import Loading from "../components/Loading";
@@ -93,7 +94,13 @@ const NewPassword = () => {
 
   return (
     <>
-      <h1 className="text-sky-600 font-black text-6xl capitalize">
+      <div className="flex flex-col items-center">
+        <Link to={"/"}>
+          {" "}
+          <img src={logo} alt="" />
+        </Link>
+      </div>
+      <h1 className="pt-8 pb-3 text-white font-black uppercase text-3xl text-center">
         Reestablece tu contraseña
       </h1>
 
@@ -101,16 +108,13 @@ const NewPassword = () => {
       {loading && <Loading />}
 
       {validToken && (
-        <form
-          className="my-10 bg-white shadow rounded-lg p-10"
-          onSubmit={handleSubmit}
-        >
+        <form onSubmit={handleSubmit}>
           <div className="my-5">
             <input
               id="password"
               type="password"
               placeholder="Contraseña"
-              className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+              className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -120,7 +124,7 @@ const NewPassword = () => {
               id="re-password"
               type="password"
               placeholder="Confirmar Contraseña"
-              className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
+              className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
               value={rePassword}
               onChange={(e) => setRePassword(e.target.value)}
             />
@@ -128,13 +132,13 @@ const NewPassword = () => {
           <input
             type="submit"
             value="Guardar"
-            className="bg-sky-700 mb-5 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
+            className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
           />
         </form>
       )}
       {confirmed && (
         <Link
-          className="block text-center my-5 text-slate-600 uppercase text-sm"
+          className="block text-center my-5 text-white uppercase text-sm"
           to="/"
         >
           Iniciar Sesión
