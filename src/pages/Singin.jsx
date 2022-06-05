@@ -21,7 +21,7 @@ const Singin = () => {
     setTimeout(() => {
       setAlert({});
     }, 5000);
-  };
+  };setAuth
 
   const handleSubmit = async (e) => {
     e.preventDefault();

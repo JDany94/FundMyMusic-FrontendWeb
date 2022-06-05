@@ -1,21 +1,64 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import useConcerts from "../hooks/useConcerts";
+import Loading from "../components/Loading";
+import axiosClient from "../config/axiosClient";
 
 const Profile = () => {
-  const { singOutAuth, auth } = useAuth();
-  const { singOutConcerts } = useConcerts();
+  const { singOutAuth, auth, setAuth } = useAuth();
+  const { singOutConcerts, loading, setLoading, showAlert } = useConcerts();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadUserData = async () => {
+      setLoading(true);
+      const token = localStorage.getItem("x-auth-token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      try {
+        const { data } = await axiosClient.get("/user/profile", config);
+        setAuth(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        showAlert({
+          msg: "Error de conexión",
+          error: true,
+        });
+        console.log(error);
+        navigate("/dashboard");
+      }
+    };
+    loadUserData();
+  }, []);
 
   const { name, surname, email, phone, role } = auth;
-
   const handleSingOut = () => {
     singOutAuth();
     singOutConcerts();
     localStorage.removeItem("x-auth-token");
   };
 
+  const { msg } = alert;
+
+  if (loading) return <Loading />;
+
   return (
     <div>
+      {msg && <Alert alert={alert} />}
+
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-white font-bold md:text-5xl">{name}</h1>
         <div>

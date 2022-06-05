@@ -273,6 +273,7 @@ const ConcertsProvider = ({ children }) => {
         getConcert,
         concert,
         loading,
+        setLoading,
         deleteConcert,
         handleModalDeleteConcert,
         modalDeleteConcert,
