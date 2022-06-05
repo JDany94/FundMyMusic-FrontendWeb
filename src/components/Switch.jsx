@@ -4,12 +4,20 @@ import useConcerts from "../hooks/useConcerts";
 export default function SwitchFrom() {
   const {enabledSwitch, handleEnabledSwitch} = useConcerts();
 
+  const handleOnChange = () => {
+    if (enabledSwitch) {
+      handleEnabledSwitch(false)
+    } else {
+      handleEnabledSwitch(true)
+    }
+  }
+
   return (
     <div>
       <Switch
         checked={enabledSwitch}
-        onChange={handleEnabledSwitch}
-        className={`${enabledSwitch ? "bg-sky-900" : "bg-sky-700"}
+        onChange={handleOnChange}
+        className={`${enabledSwitch ? "bg-[#BA0A00]" : "bg-[#830700]"}
           relative inline-flex h-[24px] w-[52px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
       >
         <span className="sr-only">Use setting</span>

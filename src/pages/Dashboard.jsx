@@ -11,15 +11,15 @@ const Dashboard = () => {
   if (loading) return <Loading />;
   return (
     <>
-      <h1 className="text-4xl font-black text-center">Conciertos Publicados</h1>
+      <h1 className="pt-8 pb-3 text-white font-bold text-3xl uppercase text-center">Conciertos Publicados</h1>
       {msg && <Alert alert={alert} />}
-      <div className="bg-white shodow mt-10 rounded-lg">
+      <div className="bg-gray-900 mt-10 rounded-xl">
         {concerts.length ? (
           concerts.map((concert) => (
             <PreviewConcert key={concert._id} concert={concert} />
           ))
         ) : (
-          <p className=" text-center text-gray-600 uppercase font-bold p-5">
+          <p className=" text-center text-white uppercase font-bold p-5">
             No hay conciertos publicados
           </p>
         )}

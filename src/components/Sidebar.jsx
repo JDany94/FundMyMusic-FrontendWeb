@@ -1,19 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import useConcerts from "../hooks/useConcerts";
 import Searcher from "./Searcher";
 
 const Sidebar = () => {
-  const { auth, singOutAuth } = useAuth();
   const { handleSearcher, singOutConcerts } = useConcerts();
 
   const navigate = useNavigate();
-
-  const handleSingOut = () => {
-    singOutAuth();
-    singOutConcerts();
-    localStorage.removeItem("x-auth-token");
-  };
 
   const handleClickNewConcert = () => {
     navigate("/dashboard/new-concert");
@@ -23,12 +15,16 @@ const Sidebar = () => {
     navigate("/dashboard");
   };
 
+  const handleClickProfile = () => {
+    navigate("/dashboard/profile");
+  };
+
   return (
-    <aside className="flex sm:flex-row md:flex-col sm:justify-center md:justify-start bg-gray-900 px-7 gap-5">
-      
+    <aside className="flex sm:flex-row md:flex-col xs:justify-center md:justify-start bg-gray-900 px-7 gap-5">
       <button
+        // Concerts
         onClick={handleClickConcerts}
-        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mb-4 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mt-3 mb-3 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -46,8 +42,9 @@ const Sidebar = () => {
         </svg>
       </button>
       <button
+        // NEW CONCERT
         onClick={handleClickNewConcert}
-        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mb-4 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mt-3 mb-3 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -65,8 +62,9 @@ const Sidebar = () => {
         </svg>
       </button>
       <button
+        // SEARCH
         type="button"
-        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mb-4 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mt-3 mb-3 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
         onClick={handleSearcher}
       >
         <svg
@@ -85,9 +83,10 @@ const Sidebar = () => {
         </svg>
       </button>
       <button
+        // PROFILE
         type="button"
-        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mb-4 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
-        onClick={handleSingOut}
+        className="bg-[#BA0A00] p-4 text-white uppercase font-bold block  mt-3 mb-3 text-center rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+        onClick={handleClickProfile}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

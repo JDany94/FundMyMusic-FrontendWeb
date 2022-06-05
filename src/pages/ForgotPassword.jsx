@@ -61,7 +61,7 @@ const ForgotPassword = () => {
           <img src={logo} alt="" />
         </Link>
       </div>
-      <h1 className="pt-8 pb-3 text-white font-black text-3xl uppercase text-center">
+      <h1 className="pt-8 pb-3 text-white font-bold text-3xl uppercase text-center">
         Recuperar contraseña
       </h1>
 
@@ -74,7 +74,7 @@ const ForgotPassword = () => {
             id="email"
             type="email"
             placeholder="Email"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+            className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />

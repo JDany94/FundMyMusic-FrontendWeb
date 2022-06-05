@@ -15,9 +15,9 @@ const EditConcert = () => {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row items-center justify-between">
-        <h1 className="font-black text-4xl mb-5">Editar concierto: {title}</h1>
-      </div>
+      <h1 className="pt-8 pb-3 text-white font-bold text-3xl uppercase text-center">
+        Editar concierto: {title}
+      </h1>
       <div className="mt-10 flex justify-center">
         <FormConcert />
       </div>

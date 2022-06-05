@@ -33,41 +33,39 @@ const Concert = () => {
 
   const { msg } = alert;
 
-
   if (loading) return <Loading />;
 
   return (
-    <>
+    <div>
       {msg && <Alert alert={alert} />}
-      <div className="flex justify-between mb-5">
-        <h1 className="font-black text-4xl">{title}</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-white font-bold md:text-5xl">{title}</h1>
         <div>
           {status === "Fecha Abierta" ? (
-            <div className="flex items-center gap-2 mb-2 text-gray-400 hover:text-black">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                />
-              </svg>
+            <div className="grid content-center mb-2">
               <Link
                 to={`/dashboard/concert/edit/${params.id}`}
-                className="uppercase font-bold"
+                className="flex items-center gap-2 text-white uppercase font-bold text-lg hover:text-[#BA0A00]"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                  />
+                </svg>
                 Editar
               </Link>
             </div>
           ) : null}
-
-          <div className="flex items-center gap-2 text-red-600 hover:text-black">
+          <div className="flex items-center gap-2 text-red-600 hover:text-[#830700]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -84,7 +82,7 @@ const Concert = () => {
             </svg>
             <button
               type="button"
-              className="uppercase font-bold"
+              className="uppercase font-bold text-lg"
               onClick={handleModalDeleteConcert}
             >
               Eliminar
@@ -92,7 +90,6 @@ const Concert = () => {
           </div>
         </div>
       </div>
-
       <div className="flex items-center">
         <span
           className={`${
@@ -110,56 +107,57 @@ const Concert = () => {
         ) : null}
       </div>
 
-      <p className="font-bold text-xl mt-5">Detalles</p>
-      <div className="bg-white shadow mt-5 rounded-lg">
+      <p className="font-bold text-xl mt-4 text-white">Detalles</p>
+      <div className="bg-gray-900 mt-5 rounded-xl">
         <div className="p-5">
-          <p className="pb-3 text-sm text-gray-500 uppercase">
+          <p className="pb-3 text-md text-gray-500 uppercase">
             {place} - {date ? date.split("T")[0].replace(/-/g, "/") : date}
           </p>
-          <p className="pb-2 text-sm text-gray-500 uppercase font-bold">
-            Género
-          </p>
-          <p className="pb-3 text-sm text-gray-500 uppercase">{genre}</p>
-          <p className="pb-2 text-sm text-gray-500 uppercase font-bold">
+          <p className="pb-2 text-sm text-white uppercase font-bold">Género</p>
+          <p className="pb-3 text-md text-gray-500 uppercase">{genre}</p>
+          <p className="pb-2 text-sm text-white uppercase font-bold">
             Descripción
           </p>
-          <p className="pb-3 text-sm text-gray-500 uppercase">{description}</p>
-          <p className="pb-2 text-sm text-gray-500 uppercase font-bold">
+          <p className="pb-3 text-md text-gray-500 uppercase">{description}</p>
+          <p className="pb-2 text-sm text-white uppercase font-bold">
             Recompensas por pre-venta
           </p>
-          <p className="pb-3 text-sm text-gray-500 uppercase">
+          <p className="pb-3 text-md text-gray-500 uppercase">
             {gift === "" ? "N/A" : gift}
           </p>
         </div>
       </div>
 
       <div className="flex items-center justify-between mt-5">
-        <p className="font-bold text-xl">Crowdfunding</p>
+        <p className="font-bold text-xl text-white">Crowdfunding</p>
       </div>
-      <div className="bg-white shadow mt-5 rounded-lg">
+      <div className="bg-gray-900 shadow mt-5 rounded-lg">
         <div className="p-5">
-          <p className="pb-2 text-sm text-gray-500 uppercase font-bold">
-            Precio
-          </p>
-          <p className="pb-3 text-sm text-gray-500 uppercase">{price} €</p>
-          <p className="pb-2 text-sm text-gray-500 uppercase font-bold">
+          <p className="pb-2 text-sm text-white uppercase font-bold">
             Capacidad
           </p>
-          <p className="pb-3 text-sm text-gray-500 uppercase">{capacity}</p>
-          <p className="pb-2 text-sm text-gray-500 uppercase font-bold">
+          <p className="pb-3 text-md text-gray-500 uppercase">{capacity}</p>
+          <p className="pb-2 text-sm text-white uppercase font-bold">
             Ventas minimas para celebración
           </p>
-          <p className="pb-3 text-sm text-gray-500 uppercase">{minimumSales}</p>
-          <p className="pb-2 text-sm text-gray-500 uppercase font-bold">
+          <p className="pb-3 text-md text-gray-500 uppercase">{minimumSales}</p>
+          <p className="pb-2 text-sm text-white uppercase font-bold">Precio</p>
+          <p className="pb-3 text-md text-gray-500 uppercase">{price} €</p>
+
+          <p className="pb-2 text-sm text-white uppercase font-bold">
             Entradas vendidas
           </p>
-          <p className="pb-3 text-sm text-gray-500 uppercase">
+          <p className="pb-3 text-md text-gray-500 uppercase">
             {capacity - available}
           </p>
+          <p className="pb-2 text-sm text-white uppercase font-bold">
+            Entradas disponibles
+          </p>
+          <p className="pb-3 text-md text-gray-500 uppercase">{available}</p>
         </div>
       </div>
       <ModalDeleteConcert modal={modal} setModal={setModal} />
-    </>
+    </div>
   );
 };
 

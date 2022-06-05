@@ -16,7 +16,7 @@ const ConcertsProvider = ({ children }) => {
   const [searcher, setSearcher] = useState(false);
 
   const navigate = useNavigate();
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   useEffect(() => {
     const getConcerts = async () => {
@@ -79,7 +79,15 @@ const ConcertsProvider = ({ children }) => {
       );
       setConcerts(syncConcerts);
       setLoading(false);
-      Swal.fire("Correcto", "Concierto editado correctamente", "success");
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "Concierto editado correctamente",
+        showConfirmButton: false,
+        timer: 1500,
+        color: "#fff",
+        background: "#111827",
+      });
       navigate(`/dashboard/${data._id}`);
     } catch (error) {
       setLoading(false);
@@ -112,7 +120,15 @@ const ConcertsProvider = ({ children }) => {
 
       setConcerts([...concerts, data]);
       setLoading(false);
-      Swal.fire("Correcto", "Concierto creado correctamente", "success");
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "Concierto creado correctamente",
+        showConfirmButton: false,
+        timer: 1500,
+        color: "#fff",
+        background: "#111827",
+      });
       navigate("/dashboard");
     } catch (error) {
       setLoading(false);
@@ -173,7 +189,15 @@ const ConcertsProvider = ({ children }) => {
       );
       setConcerts(syncConcerts);
       setLoading(false);
-      Swal.fire("Correcto", data.msg, "success");
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: data.msg,
+        showConfirmButton: false,
+        timer: 1500,
+        color: "#fff",
+        background: "#111827",
+      });
       navigate("/dashboard");
     } catch (error) {
       setLoading(false);
@@ -189,8 +213,8 @@ const ConcertsProvider = ({ children }) => {
     setModalDeleteConcert(!modalDeleteConcert);
   };
 
-  const handleEnabledSwitch = () => {
-    setEnabledSwitch(!enabledSwitch);
+  const handleEnabledSwitch = (boolean) => {
+    setEnabledSwitch(boolean);
   };
 
   const handleSearcher = () => {
@@ -201,6 +225,42 @@ const ConcertsProvider = ({ children }) => {
     setConcerts([]);
     setConcert({});
     setAlert({});
+  };
+
+  const editProfile = async (user) => {
+    try {
+      const token = localStorage.getItem("x-auth-token");
+      if (!token) return;
+      setLoading(true);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axiosClient.put(`/user/profile`, user, config);
+      setAuth(data);
+      setLoading(false);
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "Perfil editado correctamente",
+        showConfirmButton: false,
+        timer: 1500,
+        color: "#fff",
+        background: "#111827",
+      });
+      navigate(`/dashboard/profile`);
+    } catch (error) {
+      setLoading(false);
+      showAlert({
+        msg: "Error de conexión",
+        error: true,
+      });
+      console.log(error);
+      navigate("/dashboard");
+    }
   };
 
   return (
@@ -221,6 +281,7 @@ const ConcertsProvider = ({ children }) => {
         singOutConcerts,
         handleEnabledSwitch,
         enabledSwitch,
+        editProfile,
       }}
     >
       {children}

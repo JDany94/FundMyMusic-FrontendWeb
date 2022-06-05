@@ -35,9 +35,13 @@ const NewPassword = () => {
       } catch (error) {
         setLoading(false);
         showAlert({
-          msg: "Error de conexión",
+          msg: error.response.data.msg,
           error: true,
         });
+        setTimeout(() => {
+          setAlert({});
+          navigate("/");
+        }, 4000);
         console.log(error);
       }
     };
@@ -100,7 +104,7 @@ const NewPassword = () => {
           <img src={logo} alt="" />
         </Link>
       </div>
-      <h1 className="pt-8 pb-3 text-white font-black uppercase text-3xl text-center">
+      <h1 className="pt-8 pb-3 text-white font-bold uppercase text-3xl text-center">
         Reestablece tu contraseña
       </h1>
 
@@ -114,7 +118,7 @@ const NewPassword = () => {
               id="password"
               type="password"
               placeholder="Contraseña"
-              className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+              className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -124,7 +128,7 @@ const NewPassword = () => {
               id="re-password"
               type="password"
               placeholder="Confirmar Contraseña"
-              className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+              className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
               value={rePassword}
               onChange={(e) => setRePassword(e.target.value)}
             />

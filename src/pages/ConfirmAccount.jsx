@@ -57,7 +57,7 @@ const ConfirmAccount = () => {
           <img src={logo} alt="" />
         </Link>
       </div>
-      <h1 className="pt-8 pb-3 text-white font-black uppercase text-3xl text-center">
+      <h1 className="pt-8 pb-3 text-white font-bold uppercase text-3xl text-center">
         Confirma tu cuenta
       </h1>
       <div>

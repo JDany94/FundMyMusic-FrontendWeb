@@ -37,10 +37,21 @@ const FormConcert = () => {
   const [gift, setGift] = useState("");
   const [price, setPrice] = useState("");
 
-  const { showAlert, alert, submitConcert, concert, loading, enabledSwitch } =
-    useConcerts();
+  const {
+    showAlert,
+    alert,
+    submitConcert,
+    concert,
+    loading,
+    enabledSwitch,
+    handleEnabledSwitch,
+  } = useConcerts();
 
   const params = useParams();
+
+  useEffect(() => {
+    handleEnabledSwitch(false);
+  }, []);
 
   useEffect(() => {
     if (params.id) {
@@ -53,6 +64,9 @@ const FormConcert = () => {
       setCapacity(concert.capacity);
       setMinimumSales(concert.minimumSales);
       setGift(concert.gift);
+      if (concert.gift !== "") {
+        handleEnabledSwitch(true);
+      }
       setPrice(concert.price);
     }
   }, [params]);
@@ -78,7 +92,11 @@ const FormConcert = () => {
       return;
     }
 
-    if (parseInt(capacity) <= 0 || parseInt(minimumSales) < 0 || parseInt(price) <= 0) {
+    if (
+      parseInt(capacity) <= 0 ||
+      parseInt(minimumSales) < 0 ||
+      parseInt(price) <= 0
+    ) {
       showAlert({
         msg: "Capacidad, precio o ventas minimas incorrectas",
         error: true,
@@ -86,7 +104,7 @@ const FormConcert = () => {
       return;
     }
 
-    if ( parseInt(capacity) < parseInt(minimumSales)) {
+    if (parseInt(capacity) < parseInt(minimumSales)) {
       showAlert({
         msg: "Las ventas minimas no pueden ser mayores que la capacidad",
         error: true,
@@ -106,7 +124,7 @@ const FormConcert = () => {
       gift,
       price,
     };
- 
+
     await submitConcert(JSON);
 
     setId(null);
@@ -124,15 +142,11 @@ const FormConcert = () => {
   const { msg } = alert;
 
   return (
-    <form
-      className="bg-white py-5 px-5 md:w-1/2 rounded-lg"
-      onSubmit={handleSubmit}
-    >
+    <form className="md:w-1/2" onSubmit={handleSubmit}>
       {msg && <Alert alert={alert} />}
       {loading && <Loading />}
-
       <div className="text-center mb-5">
-        <label className="text-gray-700 uppercase font-bold text-sm">
+        <label className="text-white uppercase font-bold text-md">
           Datos del concierto
         </label>
       </div>
@@ -140,7 +154,7 @@ const FormConcert = () => {
         <input
           type="text"
           placeholder="Título"
-          className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+          className=" w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -148,8 +162,7 @@ const FormConcert = () => {
       <div className="mb-5">
         <select
           type="text"
-          placeholder="Género"
-          className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+          className="w-full p-2 mt-2 rounded-xl bg-gray-800 text-gray-400 font-bold"
           value={genre}
           onChange={(e) => setGenre(e.target.value)}
         >
@@ -163,26 +176,27 @@ const FormConcert = () => {
         <input
           type="text"
           placeholder="Lugar del concierto"
-          className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+          className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
           value={place}
           onChange={(e) => setPlace(e.target.value)}
         />
       </div>
       <div className="flex justify-center items-center mb-5">
-        <label className="w-full mt-2 text-gray-700 uppercase text-sm font-bold">
+        <label className="w-full mt-2 text-white uppercase text-md font-bold">
           Fecha del concierto
         </label>
         <input
           type="date"
-          className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+          className="w-full p-2 mt-2 rounded-xl bg-gray-800 text-gray-400 font-bold"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
       </div>
       <div className="mb-5">
         <textarea
+          rows={5}
           placeholder="Descripción"
-          className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+          className="resize-none w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -191,7 +205,7 @@ const FormConcert = () => {
         <input
           type="number"
           placeholder="Capacidad del concierto"
-          className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+          className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
           value={capacity}
           onChange={(e) => setCapacity(e.target.value)}
         />
@@ -200,13 +214,13 @@ const FormConcert = () => {
         <input
           type="number"
           placeholder="Entradas vendidas necesarias para cerrar la fecha del concierto"
-          className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+          className=" w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
           value={minimumSales}
           onChange={(e) => setMinimumSales(e.target.value)}
         />
       </div>
       <div className="flex justify-center items-center mb-5">
-        <p className="w-full mt-2 text-gray-700 uppercase text-sm font-bold">
+        <p className="w-full mt-2 text-white uppercase text-md font-bold">
           Recompensas para la pre-venta
         </p>
         <SwitchForm />
@@ -216,7 +230,7 @@ const FormConcert = () => {
           <input
             type="text"
             placeholder="Detalles de la recompensa"
-            className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+            className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
             value={gift}
             onChange={(e) => setGift(e.target.value)}
           />
@@ -226,7 +240,7 @@ const FormConcert = () => {
         <input
           type="number"
           placeholder="Precio de las entradas (€)"
-          className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md bg-gray-50 font-bold"
+          className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
@@ -234,7 +248,7 @@ const FormConcert = () => {
       <input
         type="submit"
         value={id ? "Actualizar concierto" : "Publicar concierto"}
-        className="bg-sky-600 w-full p-3 uppercase font-bold text-white rounded cursos-pointer hover:bg-sky-700 transition-colors"
+        className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
       />
     </form>
   );

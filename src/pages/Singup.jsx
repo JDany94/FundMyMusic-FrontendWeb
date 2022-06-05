@@ -116,7 +116,7 @@ const Singup = () => {
             id="email"
             type="email"
             placeholder="Email"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+            className="w-full mt-3 p-3  rounded-xl bg-gray-800 text-white font-bold"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -126,7 +126,7 @@ const Singup = () => {
             id="name"
             type="text"
             placeholder="Nombre"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+            className="w-full mt-3 p-3  rounded-xl bg-gray-800 text-white font-bold"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -136,7 +136,7 @@ const Singup = () => {
             id="surname"
             type="text"
             placeholder="Apellidos"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+            className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
             value={surname}
             onChange={(e) => setSurName(e.target.value)}
           />
@@ -146,7 +146,7 @@ const Singup = () => {
             id="phone"
             type="number"
             placeholder="Teléfono"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+            className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
@@ -156,7 +156,7 @@ const Singup = () => {
             id="password"
             type="password"
             placeholder="Contraseña"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+            className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -166,7 +166,7 @@ const Singup = () => {
             id="re-password"
             type="password"
             placeholder="Confirmar Contraseña"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+            className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
             value={repassword}
             onChange={(e) => setRePassword(e.target.value)}
           />

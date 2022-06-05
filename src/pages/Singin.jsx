@@ -76,7 +76,7 @@ const Singin = () => {
             id="email"
             type="email"
             placeholder="Email"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+            className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -86,7 +86,7 @@ const Singin = () => {
             id="password"
             type="password"
             placeholder="Contraseña"
-            className="w-full mt-3 p-3 border rounded-xl bg-gray-800 text-white"
+            className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

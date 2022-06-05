@@ -12,6 +12,8 @@ import Dashboard from "./pages/Dashboard";
 import NewConcert from "./pages/NewConcert";
 import Concert from "./pages/Concert";
 import EditConcert from "./pages/EditConcert";
+import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile";
 import { AuthProvider } from "./context/AuthProvider";
 import { ConcertsProvider } from "./context/ConcertsProvider";
 
@@ -31,8 +33,10 @@ function App() {
             <Route path="/dashboard" element={<ProtectedRoute />}>
               <Route index element={<Dashboard />} />
               <Route path="new-concert" element={<NewConcert />} />
+              <Route path="profile" element={<Profile />} />
               <Route path=":id" element={<Concert />} />
               <Route path="concert/edit/:id" element={<EditConcert />} />
+              <Route path="profile/edit" element={<EditProfile />} />
             </Route>
           </Routes>
         </ConcertsProvider>
