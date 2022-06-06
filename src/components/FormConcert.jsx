@@ -112,6 +112,17 @@ const FormConcert = () => {
       return;
     }
 
+    const today = new Date();
+    const concertDate = new Date(date.split("T")[0]);
+
+    if (today > concertDate) {
+      showAlert({
+        msg: "Fecha no válida",
+        error: true,
+      });
+      return;
+    }
+
     const JSON = {
       id,
       title,
@@ -186,7 +197,6 @@ const FormConcert = () => {
           Fecha del concierto
         </label>
         <input
-          // TODO: Validar fechas anteriores al presente
           type="date"
           className="w-full p-2 mt-2 rounded-xl bg-gray-800 text-gray-400 font-bold"
           value={date}

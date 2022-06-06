@@ -164,7 +164,7 @@ const Concert = () => {
       <div className="bg-gray-900 mt-5 rounded-xl">
         <div className="p-5">
           <p className="pb-3 text-md text-gray-500 uppercase">
-            {place} - {date ? date.split("T")[0].replace(/-/g, "/") : date}
+            {place} - {date ? date.split("T")[0].split('-').reverse().join().replace(/,/g, "/") : date}
           </p>
           <p className="pb-2 text-sm text-white uppercase font-bold">Género</p>
           <p className="pb-3 text-md text-gray-500 uppercase">{genre}</p>

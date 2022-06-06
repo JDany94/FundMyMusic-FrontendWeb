@@ -8,7 +8,7 @@ const PreviewConcert = ({ concert }) => {
         <div className="pb-2">
           <p className="font-bold text-white text-lg">{title}</p>
           <span className="text-sm text-gray-400 uppercase">
-            {place} - {date ? date.split("T")[0].replace(/-/g, "/") : date}
+            {place} - {date ? date.split("T")[0].split('-').reverse().join().replace(/,/g, "/") : date}
           </span>
         </div>
         <div className="flex gap-2 xs:mb-3 md:mb-0">

@@ -40,6 +40,10 @@ const ConcertsProvider = ({ children }) => {
     getConcerts();
   }, [auth]);
 
+  const validName = (val) => {
+    return /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u.test(val);
+  };
+
   const showAlert = (alert) => {
     setAlert(alert);
     setTimeout(() => {
@@ -208,8 +212,6 @@ const ConcertsProvider = ({ children }) => {
     }
   };
 
-  
-
   const handleEnabledSwitch = (boolean) => {
     setEnabledSwitch(boolean);
   };
@@ -278,6 +280,7 @@ const ConcertsProvider = ({ children }) => {
         handleEnabledSwitch,
         enabledSwitch,
         editProfile,
+        validName,
       }}
     >
       {children}

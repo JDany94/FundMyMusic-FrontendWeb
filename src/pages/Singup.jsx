@@ -4,6 +4,7 @@ import logo from "../images/logo.png";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
 import Loading from "../components/Loading";
+import useConcerts from "../hooks/useConcerts";
 
 const Singup = () => {
   const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ const Singup = () => {
   const [repassword, setRePassword] = useState("");
   const [alert, setAlert] = useState("");
   const [loading, setLoading] = useState(false);
+  const {validName} = useConcerts();
 
   const navigate = useNavigate();
 
@@ -59,6 +61,14 @@ const Singup = () => {
       });
       return;
     }
+    if (!(validName(name) && validName(surname))) {
+      showAlert({
+        msg: "Nombre o Apellidos no válidos",
+        error: true,
+      });
+      return;
+    }
+
     setAlert({});
     setLoading(true);
 
@@ -143,7 +153,6 @@ const Singup = () => {
         </div>
         <div className="my-5">
           <input
-            // TODO: validar numeros en el nombre y apellido
             id="name"
             type="text"
             placeholder="Nombre"

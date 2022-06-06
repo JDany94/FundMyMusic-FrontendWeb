@@ -13,7 +13,7 @@ const FormProfile = () => {
 
   const { auth } = useAuth();
 
-  const { showAlert, loading, alert, editProfile } = useConcerts();
+  const { showAlert, loading, alert, editProfile, validName } = useConcerts();
 
   useEffect(() => {
     setEmail(auth.email);
@@ -36,6 +36,14 @@ const FormProfile = () => {
     if (phone.length < 6) {
       showAlert({
         msg: "Teléfono no válido",
+        error: true,
+      });
+      return;
+    }
+
+    if (!(validName(name) && validName(surname))) {
+      showAlert({
+        msg: "Nombre o Apellidos no válidos",
         error: true,
       });
       return;
