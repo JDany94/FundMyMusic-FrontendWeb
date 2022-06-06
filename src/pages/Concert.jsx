@@ -30,16 +30,16 @@ const Concert = () => {
 
   const handleDelete = () => {
     Swal.fire({
-      title: "¿Estás seguro?",
+      title: "¿Eliminar?",
       text: "Es probable que ya se hayan vendido algunas entradas...",
-      icon: "warning",
+      icon: "error",
       color: "#fff",
       background: "#111827",
       showCancelButton: true,
       confirmButtonColor: "#BA0A00",
       cancelButtonColor: "#3085d6",
-      cancelButtonText: "Cancelar",
       confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteConcert(params.id);

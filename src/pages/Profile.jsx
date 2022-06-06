@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 import useConcerts from "../hooks/useConcerts";
 import Loading from "../components/Loading";
 import axiosClient from "../config/axiosClient";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 
 const Profile = () => {
   const { singOutAuth, auth, setAuth } = useAuth();
@@ -46,9 +47,24 @@ const Profile = () => {
 
   const { name, surname, email, phone, role, stageName } = auth;
   const handleSingOut = () => {
-    singOutAuth();
-    singOutConcerts();
-    localStorage.removeItem("x-auth-token");
+    Swal.fire({
+      title: "¿Desea cerrar sesión?",
+      icon: "question",
+      color: "#fff",
+      background: "#111827",
+      showCancelButton: true,
+      confirmButtonColor: "#BA0A00",
+      cancelButtonColor: "#3085d6",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Cerrar Sesión",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        singOutAuth();
+        singOutConcerts();
+        localStorage.removeItem("x-auth-token");
+      }
+    });
   };
 
   const { msg } = alert;
