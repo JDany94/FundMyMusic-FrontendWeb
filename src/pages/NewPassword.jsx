@@ -87,7 +87,9 @@ const NewPassword = () => {
     } catch (error) {
       setLoading(false);
       showAlert({
-        msg: "Error de conexión",
+        msg: error.response.status !== 0
+          ? error.response.data.msg
+          : "Error de conexión",
         error: true,
       });
       console.log(error);
@@ -136,7 +138,7 @@ const NewPassword = () => {
           <input
             type="submit"
             value="Guardar"
-            className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+            className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
           />
         </form>
       )}

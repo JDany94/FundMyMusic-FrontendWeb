@@ -44,7 +44,7 @@ const Profile = () => {
     loadUserData();
   }, []);
 
-  const { name, surname, email, phone, role } = auth;
+  const { name, surname, email, phone, role, stageName } = auth;
   const handleSingOut = () => {
     singOutAuth();
     singOutConcerts();
@@ -59,32 +59,30 @@ const Profile = () => {
     <div>
       {msg && <Alert alert={alert} />}
 
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-white font-bold md:text-5xl">{name}</h1>
+      <div className="flex xs:flex-col md:flex-row justify-between gap-5">
+        <h1 className="text-white font-bold text-5xl">{name}</h1>
         <div>
-          <div className="grid content-center mb-2">
-            <Link
-              to={`/dashboard/profile/edit`}
-              className="flex items-center gap-2 text-white uppercase font-bold text-lg hover:text-[#BA0A00]"
+          <Link
+            to={`/dashboard/profile/edit`}
+            className="mb-3 flex gap-2 text-white uppercase font-bold text-lg hover:text-[#BA0A00]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                />
-              </svg>
-              Editar
-            </Link>
-          </div>
-          <div className="flex items-center gap-2 text-red-600 hover:text-[#830700]">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+              />
+            </svg>
+            Editar
+          </Link>
+          <div className="flex gap-2 text-red-600 hover:text-[#830700]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -115,6 +113,10 @@ const Profile = () => {
         <div className="p-5">
           <p className="pb-2 text-sm text-white uppercase font-bold">Email</p>
           <p className="pb-3 text-md text-gray-500 uppercase">{email}</p>
+          <p className="pb-2 text-sm text-white uppercase font-bold">
+            Nombre artístico
+          </p>
+          <p className="pb-3 text-md text-gray-500 uppercase">{stageName}</p>
           <p className="pb-2 text-sm text-white uppercase font-bold">
             Nombre y apellidos
           </p>

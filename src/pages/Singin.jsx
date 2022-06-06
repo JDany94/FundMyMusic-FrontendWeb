@@ -21,7 +21,8 @@ const Singin = () => {
     setTimeout(() => {
       setAlert({});
     }, 5000);
-  };setAuth
+  };
+  setAuth;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +41,7 @@ const Singin = () => {
       const { data } = await axiosClient.post(`/user/auth`, {
         email,
         password,
+        from: "Artist",
       });
       localStorage.setItem("x-auth-token", data.token);
       setAuth(data);
@@ -48,11 +50,13 @@ const Singin = () => {
       navigate("/dashboard");
     } catch (error) {
       setLoading(false);
+      console.log(error);
       showAlert({
-        msg: error.response.data.msg,
+        msg: error.response.status !== 0
+          ? error.response.data.msg
+          : "Error de conexión",
         error: true,
       });
-      console.log(error);
     }
   };
 
@@ -94,7 +98,7 @@ const Singin = () => {
         <input
           type="submit"
           value="Iniciar Sesión"
-          className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+          className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
         />
       </form>
 

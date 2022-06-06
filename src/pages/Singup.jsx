@@ -7,6 +7,7 @@ import Loading from "../components/Loading";
 
 const Singup = () => {
   const [email, setEmail] = useState("");
+  const [stageName, setStageName] = useState("");
   const [name, setName] = useState("");
   const [surname, setSurName] = useState("");
   const [phone, setPhone] = useState("");
@@ -26,7 +27,11 @@ const Singup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if ([email, name, surname, phone, password, repassword].includes("")) {
+    if (
+      [email, stageName, name, surname, phone, password, repassword].includes(
+        ""
+      )
+    ) {
       setAlert({
         msg: "Todos los campos son obligatorios",
         error: true,
@@ -61,6 +66,7 @@ const Singup = () => {
     try {
       const JSON = {
         email,
+        stageName,
         name,
         surname,
         phone,
@@ -76,6 +82,7 @@ const Singup = () => {
       setLoading(false);
 
       setEmail("");
+      setStageName("");
       setName("");
       setSurName("");
       setPhone("");
@@ -89,7 +96,9 @@ const Singup = () => {
     } catch (error) {
       setLoading(false);
       showAlert({
-        msg: error.response.data.msg,
+        msg: error.response.status !== 0
+          ? error.response.data.msg
+          : "Error de conexión",
         error: true,
       });
       console.log(error);
@@ -119,6 +128,16 @@ const Singup = () => {
             className="w-full mt-3 p-3  rounded-xl bg-gray-800 text-white font-bold"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="my-5">
+          <input
+            id="name"
+            type="text"
+            placeholder="Nombre Artístico"
+            className="w-full mt-3 p-3  rounded-xl bg-gray-800 text-white font-bold"
+            value={stageName}
+            onChange={(e) => setStageName(e.target.value)}
           />
         </div>
         <div className="my-5">
@@ -174,7 +193,7 @@ const Singup = () => {
         <input
           type="submit"
           value="Registrarse"
-          className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+          className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
         />
       </form>
 

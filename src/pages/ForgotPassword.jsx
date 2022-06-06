@@ -44,7 +44,9 @@ const ForgotPassword = () => {
     } catch (error) {
       setLoading(false);
       showAlert({
-        msg: error.response.data.msg,
+        msg: error.response.status !== 0
+          ? error.response.data.msg
+          : "Error de conexión",
         error: true,
       });
       console.log(error);
@@ -82,7 +84,7 @@ const ForgotPassword = () => {
         <input
           type="submit"
           value="Enviar correo"
-          className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+          className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
         />
       </form>
 

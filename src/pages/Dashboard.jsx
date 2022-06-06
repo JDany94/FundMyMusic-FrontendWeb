@@ -11,7 +11,7 @@ const Dashboard = () => {
   if (loading) return <Loading />;
   return (
     <>
-      <h1 className="pt-8 pb-3 text-white font-bold text-3xl uppercase text-center">Conciertos Publicados</h1>
+      <h1 className="text-white font-bold text-3xl uppercase text-center">Conciertos Publicados</h1>
       {msg && <Alert alert={alert} />}
       <div className="bg-gray-900 mt-10 rounded-xl">
         {concerts.length ? (

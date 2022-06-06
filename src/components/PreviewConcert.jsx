@@ -11,18 +11,44 @@ const PreviewConcert = ({ concert }) => {
             {place} - {date ? date.split("T")[0].replace(/-/g, "/") : date}
           </span>
         </div>
-        <div className="pb-3">
-          <span
+        <div className="flex gap-2 xs:mb-3 md:mb-0">
+          <div
             className={`${
-              status === "Fecha Abierta" ? "bg-green-600" : "bg-red-600"
-            } px-2 py-1 text-white uppercase text-sm rounded-full`}
+              status === "Open" ? "bg-green-600" : "bg-red-600"
+            } p-3 text-white uppercase text-sm rounded-full`}
           >
-            {status}
-          </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+          </div>
           {soldOut ? (
-            <span className="ml-2 bg-green-600 px-2 py-1 text-white uppercase text-sm rounded-full">
-              SoldOut
-            </span>
+            <div className={"bg-red-600 p-3 text-white rounded-full"}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
+                />
+              </svg>
+            </div>
           ) : null}
         </div>
       </div>

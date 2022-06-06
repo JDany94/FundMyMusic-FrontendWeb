@@ -6,6 +6,7 @@ import Loading from "./Loading";
 
 const FormProfile = () => {
   const [email, setEmail] = useState("");
+  const [stageName, setStageName] = useState("");
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [phone, setPhone] = useState("");
@@ -16,6 +17,7 @@ const FormProfile = () => {
 
   useEffect(() => {
     setEmail(auth.email);
+    setStageName(auth.stageName);
     setName(auth.name);
     setSurname(auth.surname);
     setPhone(auth.phone);
@@ -23,7 +25,7 @@ const FormProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if ([email, name, surname, phone].includes("")) {
+    if ([email, stageName, name, surname, phone].includes("")) {
       showAlert({
         msg: "Faltan campos por llenar",
         error: true,
@@ -41,6 +43,7 @@ const FormProfile = () => {
 
     const JSON = {
       _id: auth._id,
+      stageName,
       name,
       surname,
       phone,
@@ -49,6 +52,7 @@ const FormProfile = () => {
     await editProfile(JSON);
 
     setEmail("");
+    setStageName("");
     setName("");
     setSurname("");
     setPhone("");
@@ -68,6 +72,15 @@ const FormProfile = () => {
           className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-gray-600 font-bold"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className="mb-5">
+        <input
+          type="text"
+          placeholder="Nombre Artístico"
+          className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+          value={stageName}
+          onChange={(e) => setStageName(e.target.value)}
         />
       </div>
       <div className="mb-5">
@@ -100,7 +113,7 @@ const FormProfile = () => {
       <input
         type="submit"
         value={"Actualizar perfil"}
-        className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-xl hover:cursor-pointer hover:bg-[#830700] transition-colors"
+        className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
       />
     </form>
   );

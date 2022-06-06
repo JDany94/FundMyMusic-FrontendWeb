@@ -1,16 +1,13 @@
 import { useParams, Link } from "react-router-dom";
 import useConcerts from "../hooks/useConcerts";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Loading from "../components/Loading";
-import ModalDeleteConcert from "../components/ModalDeleteConcert";
 import Alert from "../components/Alert";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 
 const Concert = () => {
   const params = useParams();
-  const { getConcert, concert, loading, handleModalDeleteConcert, alert } =
-    useConcerts();
-
-  const [modal, setModal] = useState(false);
+  const { getConcert, concert, loading, deleteConcert, alert } = useConcerts();
 
   useEffect(() => {
     getConcert(params.id);
@@ -31,6 +28,34 @@ const Concert = () => {
     soldOut,
   } = concert;
 
+  const handleDelete = () => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Es probable que ya se hayan vendido algunas entradas...",
+      icon: "warning",
+      color: "#fff",
+      background: "#111827",
+      showCancelButton: true,
+      confirmButtonColor: "#BA0A00",
+      cancelButtonColor: "#3085d6",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Eliminar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteConcert(params.id);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Concierto eliminado",
+          showConfirmButton: false,
+          timer: 1500,
+          color: "#fff",
+          background: "#111827",
+        });
+      }
+    });
+  };
+
   const { msg } = alert;
 
   if (loading) return <Loading />;
@@ -38,34 +63,74 @@ const Concert = () => {
   return (
     <div>
       {msg && <Alert alert={alert} />}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-white font-bold md:text-5xl">{title}</h1>
+      <div className="flex xs:flex-col md:flex-row justify-between gap-5">
         <div>
-          {status === "Fecha Abierta" ? (
-            <div className="grid content-center mb-2">
-              <Link
-                to={`/dashboard/concert/edit/${params.id}`}
-                className="flex items-center gap-2 text-white uppercase font-bold text-lg hover:text-[#BA0A00]"
+          <h1 className="text-white font-bold text-5xl mb-5">{title}</h1>
+          <div className="flex gap-2">
+            <div
+              className={`${
+                status === "Open" ? "bg-green-600" : "bg-red-600"
+              } p-3 text-white uppercase text-sm rounded-full`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
               >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            {soldOut ? (
+              <div className={"bg-red-600 p-3 text-white rounded-full"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  strokeWidth={2}
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                    d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
                   />
                 </svg>
-                Editar
-              </Link>
-            </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+        <div>
+          {status === "Open" ? (
+            <Link
+              to={`/dashboard/concert/edit/${params.id}`}
+              className="mb-3 flex gap-2 text-white uppercase font-bold text-lg hover:text-[#BA0A00]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                />
+              </svg>
+              Editar
+            </Link>
           ) : null}
-          <div className="flex items-center gap-2 text-red-600 hover:text-[#830700]">
+          <div className="flex gap-2 text-red-600 hover:text-[#830700]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -83,28 +148,12 @@ const Concert = () => {
             <button
               type="button"
               className="uppercase font-bold text-lg"
-              onClick={handleModalDeleteConcert}
+              onClick={handleDelete}
             >
               Eliminar
             </button>
           </div>
         </div>
-      </div>
-      <div className="flex items-center">
-        <span
-          className={`${
-            status === "Fecha Abierta" ? "bg-green-600" : "bg-red-600"
-          } px-2 py-1 text-white uppercase text-sm rounded-full`}
-        >
-          {status}
-        </span>
-        {soldOut ? (
-          <div className="pl-2">
-            <span className="bg-green-600 px-2 py-1 text-white uppercase text-sm rounded-full">
-              SoldOut
-            </span>
-          </div>
-        ) : null}
       </div>
 
       <p className="font-bold text-xl mt-4 text-white">Detalles</p>
@@ -156,7 +205,6 @@ const Concert = () => {
           <p className="pb-3 text-md text-gray-500 uppercase">{available}</p>
         </div>
       </div>
-      <ModalDeleteConcert modal={modal} setModal={setModal} />
     </div>
   );
 };

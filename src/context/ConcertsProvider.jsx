@@ -11,7 +11,6 @@ const ConcertsProvider = ({ children }) => {
   const [alert, setAlert] = useState({});
   const [concert, setConcert] = useState({});
   const [loading, setLoading] = useState(false);
-  const [modalDeleteConcert, setModalDeleteConcert] = useState(false);
   const [enabledSwitch, setEnabledSwitch] = useState(false);
   const [searcher, setSearcher] = useState(false);
 
@@ -80,7 +79,7 @@ const ConcertsProvider = ({ children }) => {
       setConcerts(syncConcerts);
       setLoading(false);
       Swal.fire({
-        position: "top",
+        position: "center",
         icon: "success",
         title: "Concierto editado correctamente",
         showConfirmButton: false,
@@ -121,7 +120,7 @@ const ConcertsProvider = ({ children }) => {
       setConcerts([...concerts, data]);
       setLoading(false);
       Swal.fire({
-        position: "top",
+        position: "center",
         icon: "success",
         title: "Concierto creado correctamente",
         showConfirmButton: false,
@@ -190,7 +189,7 @@ const ConcertsProvider = ({ children }) => {
       setConcerts(syncConcerts);
       setLoading(false);
       Swal.fire({
-        position: "top",
+        position: "center",
         icon: "success",
         title: data.msg,
         showConfirmButton: false,
@@ -209,9 +208,7 @@ const ConcertsProvider = ({ children }) => {
     }
   };
 
-  const handleModalDeleteConcert = () => {
-    setModalDeleteConcert(!modalDeleteConcert);
-  };
+  
 
   const handleEnabledSwitch = (boolean) => {
     setEnabledSwitch(boolean);
@@ -243,7 +240,7 @@ const ConcertsProvider = ({ children }) => {
       setAuth(data);
       setLoading(false);
       Swal.fire({
-        position: "top",
+        position: "center",
         icon: "success",
         title: "Perfil editado correctamente",
         showConfirmButton: false,
@@ -275,8 +272,6 @@ const ConcertsProvider = ({ children }) => {
         loading,
         setLoading,
         deleteConcert,
-        handleModalDeleteConcert,
-        modalDeleteConcert,
         handleSearcher,
         searcher,
         singOutConcerts,
