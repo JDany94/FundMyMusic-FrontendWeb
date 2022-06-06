@@ -23,7 +23,7 @@ const Searcher = () => {
     >
       <Dialog
         as="div"
-        className="fixed inset-0 z-10 overflow-y-auto p-4 "
+        className="fixed inset-0 z-10 overflow-y-auto p-4 xs:mt-56 md:mt-7 lg:mt-10 xl:mt-16 "
         onClose={handleSearcher}
       >
         <Transition.Child

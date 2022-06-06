@@ -17,7 +17,7 @@ export default function SwitchFrom() {
       <Switch
         checked={enabledSwitch}
         onChange={handleOnChange}
-        className={`${enabledSwitch ? "bg-[#BA0A00]" : "bg-[#830700]"}
+        className={`${enabledSwitch ? "bg-red-800" : "bg-[#830700]"}
           relative inline-flex h-[24px] w-[52px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
       >
         <span className="sr-only">Use setting</span>

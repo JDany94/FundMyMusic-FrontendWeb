@@ -98,7 +98,7 @@ const Singin = () => {
         <input
           type="submit"
           value="Iniciar Sesión"
-          className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
+          className="bg-red-800 mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
         />
       </form>
 

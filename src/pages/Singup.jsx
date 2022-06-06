@@ -96,9 +96,10 @@ const Singup = () => {
     } catch (error) {
       setLoading(false);
       showAlert({
-        msg: error.response.status !== 0
-          ? error.response.data.msg
-          : "Error de conexión",
+        msg:
+          error.response.status !== 0
+            ? error.response.data.msg
+            : "Error de conexión",
         error: true,
       });
       console.log(error);
@@ -142,6 +143,7 @@ const Singup = () => {
         </div>
         <div className="my-5">
           <input
+            // TODO: validar numeros en el nombre y apellido
             id="name"
             type="text"
             placeholder="Nombre"
@@ -193,7 +195,7 @@ const Singup = () => {
         <input
           type="submit"
           value="Registrarse"
-          className="bg-[#BA0A00] mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
+          className="bg-red-800 mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
         />
       </form>
 

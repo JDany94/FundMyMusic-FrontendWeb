@@ -63,14 +63,14 @@ const Concert = () => {
   return (
     <div>
       {msg && <Alert alert={alert} />}
-      <div className="flex xs:flex-col md:flex-row justify-between gap-5">
+      <div className="flex xs:flex-col md:flex-row justify-between gap-5 items-center">
         <div>
           <h1 className="text-white font-bold text-5xl mb-5">{title}</h1>
           <div className="flex gap-2">
             <div
               className={`${
-                status === "Open" ? "bg-green-600" : "bg-red-600"
-              } p-3 text-white uppercase text-sm rounded-full`}
+                status === "Open" ? "bg-green-600" : "bg-red-700"
+              } flex gap-2 items-center py-2 px-3 text-white text-sm rounded-full`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,9 +86,12 @@ const Concert = () => {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
+              <p className="font-bold">
+                {status === "Open" ? "Fecha Abierta" : "Fecha Cerrada"}
+              </p>
             </div>
             {soldOut ? (
-              <div className={"bg-red-600 p-3 text-white rounded-full"}>
+              <div className="flex gap-2 bg-red-700 items-center py-2 px-3 text-white text-sm rounded-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -103,6 +106,7 @@ const Concert = () => {
                     d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
                   />
                 </svg>
+                <p className="font-bold">Agotado</p>
               </div>
             ) : null}
           </div>
