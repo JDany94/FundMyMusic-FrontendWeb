@@ -22,7 +22,7 @@ const Concert = () => {
     capacity,
     minimumSales,
     gift,
-    available,
+    sold,
     price,
     status,
     soldOut,
@@ -210,13 +210,11 @@ const Concert = () => {
           <p className="pb-2 text-sm text-white uppercase font-bold">
             Entradas vendidas
           </p>
-          <p className="pb-3 text-md text-gray-500 uppercase">
-            {capacity - available}
-          </p>
+          <p className="pb-3 text-md text-gray-500 uppercase">{sold}</p>
           <p className="pb-2 text-sm text-white uppercase font-bold">
             Entradas disponibles
           </p>
-          <p className="pb-3 text-md text-gray-500 uppercase">{available}</p>
+          <p className="pb-3 text-md text-gray-500 uppercase">{capacity-sold}</p>
         </div>
       </div>
     </div>

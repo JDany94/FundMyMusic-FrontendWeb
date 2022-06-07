@@ -33,6 +33,7 @@ const FormConcert = () => {
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [capacity, setCapacity] = useState("");
+  const [sold, setSold] = useState("");
   const [minimumSales, setMinimumSales] = useState("");
   const [gift, setGift] = useState("");
   const [price, setPrice] = useState("");
@@ -69,6 +70,7 @@ const FormConcert = () => {
         handleEnabledSwitch(true);
       }
       setPrice(concert.price);
+      setSold(concert.sold)
     }
   }, [params]);
 
@@ -78,6 +80,14 @@ const FormConcert = () => {
     if (flyer === undefined && !id) {
       showAlert({
         msg: "Imagen no válida",
+        error: true,
+      });
+      return;
+    }
+
+    if (id && parseInt(capacity) < parseInt(sold)) {
+      showAlert({
+        msg: `Se han vendido ${sold} entradas, la capacidad no puede ser inferior`,
         error: true,
       });
       return;
