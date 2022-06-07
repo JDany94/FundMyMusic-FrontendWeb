@@ -36,6 +36,7 @@ const FormConcert = () => {
   const [minimumSales, setMinimumSales] = useState("");
   const [gift, setGift] = useState("");
   const [price, setPrice] = useState("");
+  const [flyer, setFlyer] = useState(undefined);
 
   const {
     showAlert,
@@ -73,6 +74,15 @@ const FormConcert = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (flyer === undefined && !id) {
+      showAlert({
+        msg: "Imagen no válida",
+        error: true,
+      });
+      return;
+    }
+
     if (
       [
         title,
@@ -136,7 +146,7 @@ const FormConcert = () => {
       price,
     };
 
-    await submitConcert(JSON);
+    await submitConcert(JSON, flyer);
 
     setId(null);
     setTitle("");
@@ -153,115 +163,139 @@ const FormConcert = () => {
   const { msg } = alert;
 
   return (
-    <form className="md:w-1/2" onSubmit={handleSubmit}>
-      {msg && <Alert alert={alert} />}
-      {loading && <Loading />}
-      <div className="text-center mb-5">
-        <label className="text-white uppercase font-bold text-md">
-          Datos del concierto
-        </label>
-      </div>
-      <div className="mb-5">
-        <input
-          type="text"
-          placeholder="Título"
-          className=" w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div className="mb-5">
-        <select
-          type="text"
-          className="w-full p-2 mt-2 rounded-xl bg-gray-800 text-gray-400 font-bold"
-          value={genre}
-          onChange={(e) => setGenre(e.target.value)}
-        >
-          <option value="">-- Género --</option>
-          {GENRE.map((option) => (
-            <option key={option}>{option}</option>
-          ))}
-        </select>
-      </div>
-      <div className="mb-5">
-        <input
-          type="text"
-          placeholder="Lugar del concierto"
-          className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
-          value={place}
-          onChange={(e) => setPlace(e.target.value)}
-        />
-      </div>
-      <div className="flex justify-center items-center mb-5">
-        <label className="w-full mt-2 text-white uppercase text-md font-bold">
-          Fecha del concierto
-        </label>
-        <input
-          type="date"
-          className="w-full p-2 mt-2 rounded-xl bg-gray-800 text-gray-400 font-bold"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
-      <div className="mb-5">
-        <textarea
-          rows={5}
-          placeholder="Descripción"
-          className="resize-none w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </div>
-      <div className="mb-5">
-        <input
-          type="number"
-          placeholder="Capacidad del concierto"
-          className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
-          value={capacity}
-          onChange={(e) => setCapacity(e.target.value)}
-        />
-      </div>
-      <div className="mb-5">
-        <input
-          type="number"
-          placeholder="Entradas vendidas necesarias para cerrar la fecha del concierto"
-          className=" w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
-          value={minimumSales}
-          onChange={(e) => setMinimumSales(e.target.value)}
-        />
-      </div>
-      <div className="flex justify-center items-center mb-5">
-        <p className="w-full mt-2 text-white uppercase text-md font-bold">
-          Recompensas para la pre-venta
-        </p>
-        <SwitchForm />
-      </div>
-      {enabledSwitch && (
+    <>
+      <form
+        className="md:w-1/2"
+        encType="multipart/form-data"
+        onSubmit={handleSubmit}
+      >
+        {msg && <Alert alert={alert} />}
+        {loading && <Loading />}
+        <div className="text-center mb-5">
+          <label className="text-white uppercase font-bold text-md">
+            Datos del concierto
+          </label>
+        </div>
         <div className="mb-5">
           <input
             type="text"
-            placeholder="Detalles de la recompensa"
-            className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
-            value={gift}
-            onChange={(e) => setGift(e.target.value)}
+            placeholder="Título"
+            className=" w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-      )}
-      <div className="mb-5">
+        {!id ? (
+          <>
+            <div className="text-center">
+              <label className="w-full mt-2 text-white uppercase text-md font-bold">
+                Imagen del concierto
+              </label>
+            </div>
+            <div className="mb-5">
+              <input
+                type="file"
+                name="file"
+                id="file"
+                className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+                onChange={(e) => setFlyer(e.target.files[0])}
+              />
+            </div>
+          </>
+        ) : null}
+        <div className="mb-5">
+          <select
+            type="text"
+            className="w-full p-2 mt-2 rounded-xl bg-gray-800 text-gray-400 font-bold"
+            value={genre}
+            onChange={(e) => setGenre(e.target.value)}
+          >
+            <option value="">-- Género --</option>
+            {GENRE.map((option) => (
+              <option key={option}>{option}</option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-5">
+          <input
+            type="text"
+            placeholder="Lugar del concierto"
+            className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+            value={place}
+            onChange={(e) => setPlace(e.target.value)}
+          />
+        </div>
+        <div className="flex justify-center items-center mb-5">
+          <label className="w-full mt-2 text-white uppercase text-md font-bold">
+            Fecha del concierto
+          </label>
+          <input
+            type="date"
+            className="w-full p-2 mt-2 rounded-xl bg-gray-800 text-gray-400 font-bold"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
+        <div className="mb-5">
+          <textarea
+            rows={5}
+            placeholder="Descripción"
+            className="resize-none w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className="mb-5">
+          <input
+            type="number"
+            placeholder="Capacidad del concierto"
+            className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+            value={capacity}
+            onChange={(e) => setCapacity(e.target.value)}
+          />
+        </div>
+        <div className="mb-5">
+          <input
+            type="number"
+            placeholder="Entradas vendidas necesarias para cerrar la fecha del concierto"
+            className=" w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+            value={minimumSales}
+            onChange={(e) => setMinimumSales(e.target.value)}
+          />
+        </div>
+        <div className="flex justify-center items-center mb-5">
+          <p className="w-full mt-2 text-white uppercase text-md font-bold">
+            Recompensas para la pre-venta
+          </p>
+          <SwitchForm />
+        </div>
+        {enabledSwitch && (
+          <div className="mb-5">
+            <input
+              type="text"
+              placeholder="Detalles de la recompensa"
+              className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+              value={gift}
+              onChange={(e) => setGift(e.target.value)}
+            />
+          </div>
+        )}
+        <div className="mb-5">
+          <input
+            type="number"
+            placeholder="Precio de las entradas (€)"
+            className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
         <input
-          type="number"
-          placeholder="Precio de las entradas (€)"
-          className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          type="submit"
+          value={id ? "Actualizar concierto" : "Publicar concierto"}
+          className="bg-red-800 mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
         />
-      </div>
-      <input
-        type="submit"
-        value={id ? "Actualizar concierto" : "Publicar concierto"}
-        className="bg-red-800 mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
-      />
-    </form>
+      </form>
+    </>
   );
 };
 

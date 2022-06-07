@@ -159,25 +159,44 @@ const Concert = () => {
           </div>
         </div>
       </div>
-
-      <p className="font-bold text-xl mt-4 text-white">Detalles</p>
-      <div className="bg-gray-900 mt-5 rounded-xl">
-        <div className="p-5">
-          <p className="pb-3 text-md text-gray-500 uppercase">
-            {place} - {date ? date.split("T")[0].split('-').reverse().join().replace(/,/g, "/") : date}
-          </p>
-          <p className="pb-2 text-sm text-white uppercase font-bold">Género</p>
-          <p className="pb-3 text-md text-gray-500 uppercase">{genre}</p>
-          <p className="pb-2 text-sm text-white uppercase font-bold">
-            Descripción
-          </p>
-          <p className="pb-3 text-md text-gray-500 uppercase">{description}</p>
-          <p className="pb-2 text-sm text-white uppercase font-bold">
-            Recompensas por pre-venta
-          </p>
-          <p className="pb-3 text-md text-gray-500 uppercase">
-            {gift === "" ? "N/A" : gift}
-          </p>
+      <div className="mt-5 flex gap-4 xs:flex-col md:flex-row">
+        <div className="flex justify-center">
+          <img
+            className="rounded-xl"
+            src={concert.FlyerURL}
+            style={{ width: "290px", height: "340px" }}
+          />
+        </div>
+        <div className="bg-gray-900 w-full rounded-xl flex items-center">
+          <div className="p-5">
+            <p className="pb-3 text-md text-gray-500 uppercase">
+              {place} -{" "}
+              {date
+                ? date
+                    .split("T")[0]
+                    .split("-")
+                    .reverse()
+                    .join()
+                    .replace(/,/g, "/")
+                : date}
+            </p>
+            <p className="pb-2 text-sm text-white uppercase font-bold">
+              Género
+            </p>
+            <p className="pb-3 text-md text-gray-500 uppercase">{genre}</p>
+            <p className="pb-2 text-sm text-white uppercase font-bold">
+              Descripción
+            </p>
+            <p className="pb-3 text-md text-gray-500 uppercase">
+              {description}
+            </p>
+            <p className="pb-2 text-sm text-white uppercase font-bold">
+              Recompensas por pre-venta
+            </p>
+            <p className="pb-3 text-md text-gray-500 uppercase">
+              {gift === "" ? "N/A" : gift}
+            </p>
+          </div>
         </div>
       </div>
 

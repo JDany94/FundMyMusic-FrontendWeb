@@ -3,6 +3,7 @@ import axiosClient from "../config/axiosClient";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2/dist/sweetalert2.all.js";
+import axios from "axios";
 
 const ConcertsContext = createContext();
 
@@ -41,7 +42,9 @@ const ConcertsProvider = ({ children }) => {
   }, [auth]);
 
   const validName = (val) => {
-    return /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u.test(val);
+    return /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u.test(
+      val
+    );
   };
 
   const showAlert = (alert) => {
@@ -51,11 +54,11 @@ const ConcertsProvider = ({ children }) => {
     }, 5000);
   };
 
-  const submitConcert = async (concert) => {
+  const submitConcert = async (concert, file) => {
     if (concert.id) {
       await editConcert(concert);
     } else {
-      await newConcert(concert);
+      await newConcert(concert, file);
     }
   };
 
@@ -103,7 +106,7 @@ const ConcertsProvider = ({ children }) => {
     }
   };
 
-  const newConcert = async (concert) => {
+  const newConcert = async (concert, file) => {
     try {
       const token = localStorage.getItem("x-auth-token");
       if (!token) return;
@@ -115,24 +118,49 @@ const ConcertsProvider = ({ children }) => {
         },
       };
 
-      const { data } = await axiosClient.post(
-        "/concerts/artist",
-        concert,
-        config
-      );
+      let formData = new FormData();
+      formData.append("file", file);
+      await axios({
+        url: "http://localhost:4000/api/files",
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+        data: formData,
+      })
+        .then(async (response) => {
+          concert.FlyerURL = response.data.url;
+          concert.FlyerPublicId = response.data.publicId;
+          concert.FlyerSize = response.data.size;
+          const { data } = await axiosClient.post(
+            "/concerts/artist",
+            concert,
+            config
+          );
 
-      setConcerts([...concerts, data]);
-      setLoading(false);
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Concierto creado correctamente",
-        showConfirmButton: false,
-        timer: 1500,
-        color: "#fff",
-        background: "#111827",
-      });
-      navigate("/dashboard");
+          setConcerts([...concerts, data]);
+          setLoading(false);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Concierto creado correctamente",
+            showConfirmButton: false,
+            timer: 1500,
+            color: "#fff",
+            background: "#111827",
+          });
+          navigate("/dashboard");
+        })
+        .catch(function (error) {
+          setLoading(false);
+          showAlert({
+            msg: "Error de conexión",
+            error: true,
+          });
+          console.log(error);
+          navigate("/dashboard");
+        });
     } catch (error) {
       setLoading(false);
       showAlert({
