@@ -121,7 +121,7 @@ const ConcertsProvider = ({ children }) => {
       let formData = new FormData();
       formData.append("file", file);
       await axios({
-        url: "http://localhost:4000/api/files",
+        url: `${import.meta.env.VITE_BACKEND_URL}/files`,
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
