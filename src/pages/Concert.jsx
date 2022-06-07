@@ -43,15 +43,6 @@ const Concert = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteConcert(params.id);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Concierto eliminado",
-          showConfirmButton: false,
-          timer: 1500,
-          color: "#fff",
-          background: "#111827",
-        });
       }
     });
   };

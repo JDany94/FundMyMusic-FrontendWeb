@@ -215,21 +215,23 @@ const ConcertsProvider = ({ children }) => {
         config
       );
 
-      const syncConcerts = concerts.filter(
-        (concertsState) => concertsState._id !== id
-      );
-      setConcerts(syncConcerts);
-      setLoading(false);
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: data.msg,
-        showConfirmButton: false,
-        timer: 1500,
-        color: "#fff",
-        background: "#111827",
-      });
-      navigate("/dashboard");
+      if (data) {
+        const syncConcerts = concerts.filter(
+          (concertsState) => concertsState._id !== id
+        );
+        setConcerts(syncConcerts);
+        setLoading(false);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: data.msg,
+          showConfirmButton: false,
+          timer: 1500,
+          color: "#fff",
+          background: "#111827",
+        });
+        navigate("/dashboard");
+      }
     } catch (error) {
       setLoading(false);
       showAlert({
