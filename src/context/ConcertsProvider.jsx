@@ -12,7 +12,8 @@ const ConcertsProvider = ({ children }) => {
   const [alert, setAlert] = useState({});
   const [concert, setConcert] = useState({});
   const [loading, setLoading] = useState(false);
-  const [enabledSwitch, setEnabledSwitch] = useState(false);
+  const [enabledSwitchGift, setEnabledSwitchGift] = useState(false);
+  const [enabledSwitchImage, setEnabledSwitchImage] = useState(false);
   const [searcher, setSearcher] = useState(false);
 
   const navigate = useNavigate();
@@ -56,13 +57,13 @@ const ConcertsProvider = ({ children }) => {
 
   const submitConcert = async (concert, file) => {
     if (concert.id) {
-      await editConcert(concert);
+      await editConcert(concert, file);
     } else {
       await newConcert(concert, file);
     }
   };
 
-  const editConcert = async (concert) => {
+  const editConcert = async (concert, file) => {
     try {
       const token = localStorage.getItem("x-auth-token");
       if (!token) return;
@@ -74,27 +75,68 @@ const ConcertsProvider = ({ children }) => {
         },
       };
 
-      const { data } = await axiosClient.put(
-        `/concerts/artist/${concert.id}`,
-        concert,
-        config
-      );
+      if (concert.enabledSwitchImage) {
+        let formData = new FormData();
+        formData.append("file", file);
+        formData.append("FlyerPublicId", concert.FlyerPublicId);
+        console.log(concert.FlyerPublicId);
+        await axios({
+          url: `${import.meta.env.VITE_BACKEND_URL}/files`,
+          method: "PUT",
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+          data: formData,
+        }).then(async (response) => {
+          concert.FlyerURL = response.data.url;
+          concert.FlyerPublicId = response.data.publicId;
+          concert.FlyerSize = response.data.size;
+          const { data } = await axiosClient.put(
+            `/concerts/artist/${concert.id}`,
+            concert,
+            config
+          );
 
-      const syncConcerts = concerts.map((concertState) =>
-        concertState._id === data._id ? data : concertState
-      );
-      setConcerts(syncConcerts);
-      setLoading(false);
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Concierto editado correctamente",
-        showConfirmButton: false,
-        timer: 1500,
-        color: "#fff",
-        background: "#111827",
-      });
-      navigate(`/dashboard/${data._id}`);
+          const syncConcerts = concerts.map((concertState) =>
+            concertState._id === data._id ? data : concertState
+          );
+          setConcerts(syncConcerts);
+          setLoading(false);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Concierto editado correctamente",
+            showConfirmButton: false,
+            timer: 1500,
+            color: "#fff",
+            background: "#111827",
+          });
+          navigate(`/dashboard/${data._id}`);
+        });
+      } else {
+        const { data } = await axiosClient.put(
+          `/concerts/artist/${concert.id}`,
+          concert,
+          config
+        );
+
+        const syncConcerts = concerts.map((concertState) =>
+          concertState._id === data._id ? data : concertState
+        );
+        setConcerts(syncConcerts);
+        setLoading(false);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Concierto editado correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+          color: "#fff",
+          background: "#111827",
+        });
+        navigate(`/dashboard/${data._id}`);
+      }
     } catch (error) {
       setLoading(false);
       showAlert({
@@ -242,8 +284,12 @@ const ConcertsProvider = ({ children }) => {
     }
   };
 
-  const handleEnabledSwitch = (boolean) => {
-    setEnabledSwitch(boolean);
+  const handleEnabledSwitchGift = (boolean) => {
+    setEnabledSwitchGift(boolean);
+  };
+
+  const handleEnabledSwitchImage = (boolean) => {
+    setEnabledSwitchImage(boolean);
   };
 
   const handleSearcher = () => {
@@ -307,8 +353,10 @@ const ConcertsProvider = ({ children }) => {
         handleSearcher,
         searcher,
         singOutConcerts,
-        handleEnabledSwitch,
-        enabledSwitch,
+        handleEnabledSwitchGift,
+        enabledSwitchGift,
+        handleEnabledSwitchImage,
+        enabledSwitchImage,
         editProfile,
         validName,
       }}

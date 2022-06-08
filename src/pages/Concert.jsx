@@ -159,7 +159,7 @@ const Concert = () => {
           />
         </div>
         <div className="bg-gray-900 w-full rounded-xl flex items-center">
-          <div className="p-5">
+          <div className="w-full p-5">
             <p className="pb-3 text-md text-gray-500 uppercase">
               {place} -{" "}
               {date
@@ -178,13 +178,13 @@ const Concert = () => {
             <p className="pb-2 text-sm text-white uppercase font-bold">
               Descripción
             </p>
-            <p className="pb-3 text-md text-gray-500 uppercase">
+            <p className=" pb-3 text-md text-gray-500">
               {description}
             </p>
             <p className="pb-2 text-sm text-white uppercase font-bold">
               Recompensas por pre-venta
             </p>
-            <p className="pb-3 text-md text-gray-500 uppercase">
+            <p className="pb-3 text-md text-gray-500">
               {gift === "" ? "N/A" : gift}
             </p>
           </div>
@@ -195,7 +195,7 @@ const Concert = () => {
         <p className="font-bold text-xl text-white">Crowdfunding</p>
       </div>
       <div className="bg-gray-900 shadow mt-5 rounded-lg">
-        <div className="p-5">
+        <div className="p-5 w-full">
           <p className="pb-2 text-sm text-white uppercase font-bold">
             Capacidad
           </p>
@@ -214,7 +214,9 @@ const Concert = () => {
           <p className="pb-2 text-sm text-white uppercase font-bold">
             Entradas disponibles
           </p>
-          <p className="pb-3 text-md text-gray-500 uppercase">{capacity-sold}</p>
+          <p className="pb-3 text-md text-gray-500 uppercase">
+            {capacity - sold}
+          </p>
         </div>
       </div>
     </div>

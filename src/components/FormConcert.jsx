@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import useConcerts from "../hooks/useConcerts";
 import Alert from "./Alert";
 import Loading from "./Loading";
-import SwitchForm from "./Switch";
+import SwitchFormGift from "./SwitchGift";
+import SwitchFormImage from "./SwitchImage";
 
 const GENRE = [
   "Electronic",
@@ -45,14 +46,17 @@ const FormConcert = () => {
     submitConcert,
     concert,
     loading,
-    enabledSwitch,
-    handleEnabledSwitch,
+    enabledSwitchGift,
+    handleEnabledSwitchGift,
+    enabledSwitchImage,
+    handleEnabledSwitchImage,
   } = useConcerts();
 
   const params = useParams();
 
   useEffect(() => {
-    handleEnabledSwitch(false);
+    handleEnabledSwitchGift(false);
+    handleEnabledSwitchImage(false);
   }, []);
 
   useEffect(() => {
@@ -67,22 +71,40 @@ const FormConcert = () => {
       setMinimumSales(concert.minimumSales);
       setGift(concert.gift);
       if (concert.gift !== "") {
-        handleEnabledSwitch(true);
+        handleEnabledSwitchGift(true);
       }
       setPrice(concert.price);
-      setSold(concert.sold)
+      setSold(concert.sold);
     }
   }, [params]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (flyer === undefined && !id) {
-      showAlert({
-        msg: "Imagen no válida",
-        error: true,
-      });
-      return;
+    if (!id || enabledSwitchImage) {
+      if (flyer === undefined) {
+        showAlert({
+          msg: "Imagen no válida",
+          error: true,
+        });
+        return;
+      }
+
+      if (!/^image/.test(flyer.type)) {
+        showAlert({
+          msg: "Formato de imagen inválido",
+          error: true,
+        });
+        return;
+      }
+
+      if (flyer.size > 1500000) {
+        showAlert({
+          msg: "La imagen no puede ser mayor a 1.5 MB",
+          error: true,
+        });
+        return;
+      }
     }
 
     if (id && parseInt(capacity) < parseInt(sold)) {
@@ -154,6 +176,8 @@ const FormConcert = () => {
       minimumSales,
       gift,
       price,
+      enabledSwitchImage,
+      FlyerPublicId: concert.FlyerPublicId,
     };
 
     await submitConcert(JSON, flyer);
@@ -212,7 +236,34 @@ const FormConcert = () => {
               />
             </div>
           </>
-        ) : null}
+        ) : (
+          <>
+            <div className="flex justify-center items-center mb-5">
+              <p className="w-full mt-2 text-white uppercase text-md font-bold">
+                Modificar imagen
+              </p>
+              <SwitchFormImage />
+            </div>
+            {enabledSwitchImage ? (
+              <>
+                <div className="text-center">
+                  <label className="w-full mt-2 text-white uppercase text-md font-bold">
+                    Nueva Imagen del concierto
+                  </label>
+                </div>
+                <div className="mb-5">
+                  <input
+                    type="file"
+                    name="file"
+                    id="file"
+                    className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+                    onChange={(e) => setFlyer(e.target.files[0])}
+                  />
+                </div>
+              </>
+            ) : null}
+          </>
+        )}
         <div className="mb-5">
           <select
             type="text"
@@ -277,9 +328,9 @@ const FormConcert = () => {
           <p className="w-full mt-2 text-white uppercase text-md font-bold">
             Recompensas para la pre-venta
           </p>
-          <SwitchForm />
+          <SwitchFormGift />
         </div>
-        {enabledSwitch && (
+        {enabledSwitchGift && (
           <div className="mb-5">
             <input
               type="text"
