@@ -28,6 +28,7 @@ const FormProfile = () => {
     e.preventDefault();
     window.scrollTo(0, 0);
 
+    // TODO: sacar de aqui las validaciones
     if ([email, stageName, name, surname, phone].includes("")) {
       showAlert({
         msg: "Faltan campos por llenar",

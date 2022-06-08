@@ -83,6 +83,7 @@ const FormConcert = () => {
     e.preventDefault();
     window.scrollTo(0, 0);
 
+    // TODO: sacar de aqui las validaciones    
     if (!id || enabledSwitchImage) {
       if (flyer === undefined) {
         showAlert({

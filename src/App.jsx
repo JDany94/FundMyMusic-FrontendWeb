@@ -17,6 +17,8 @@ import EditProfile from "./pages/EditProfile";
 import { AuthProvider } from "./context/AuthProvider";
 import { ConcertsProvider } from "./context/ConcertsProvider";
 
+// TODO: Ordenar archivos en carpetas
+
 function App() {
   return (
     <BrowserRouter>

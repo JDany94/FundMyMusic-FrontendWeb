@@ -55,6 +55,7 @@ const ConcertsProvider = ({ children }) => {
     }, 5000);
   };
 
+  // TODO: juntar las request aqui y en el backend
   const submitConcert = async (concert, file) => {
     if (concert.id) {
       await editConcert(concert, file);
@@ -79,7 +80,6 @@ const ConcertsProvider = ({ children }) => {
         let formData = new FormData();
         formData.append("file", file);
         formData.append("FlyerPublicId", concert.FlyerPublicId);
-        console.log(concert.FlyerPublicId);
         await axios({
           url: `${import.meta.env.VITE_BACKEND_URL}/files`,
           method: "PUT",
