@@ -11,6 +11,7 @@ const Concert = () => {
 
   useEffect(() => {
     getConcert(params.id);
+    window.scrollTo(0, 0);
   }, [params]);
 
   const {
@@ -178,9 +179,7 @@ const Concert = () => {
             <p className="pb-2 text-sm text-white uppercase font-bold">
               Descripción
             </p>
-            <p className=" pb-3 text-md text-gray-500">
-              {description}
-            </p>
+            <p className=" pb-3 text-md text-gray-500">{description}</p>
             <p className="pb-2 text-sm text-white uppercase font-bold">
               Recompensas por pre-venta
             </p>

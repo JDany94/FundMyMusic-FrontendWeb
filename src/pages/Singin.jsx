@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
 import Alert from "../components/Alert";
@@ -12,9 +12,13 @@ const Singin = () => {
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const { setAuth, auth } = useAuth();
+  const { setAuth } = useAuth();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const showAlert = (alert) => {
     setAlert(alert);
@@ -26,6 +30,7 @@ const Singin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    window.scrollTo(0, 0);
 
     if ([email, password].includes("")) {
       setAlert({
@@ -52,9 +57,10 @@ const Singin = () => {
       setLoading(false);
       console.log(error);
       showAlert({
-        msg: error.response.status !== 0
-          ? error.response.data.msg
-          : "Error de conexión",
+        msg:
+          error.response.status !== 0
+            ? error.response.data.msg
+            : "Error de conexión",
         error: true,
       });
     }

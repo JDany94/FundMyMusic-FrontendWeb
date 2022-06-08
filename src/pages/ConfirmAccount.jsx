@@ -38,7 +38,7 @@ const ConfirmAccount = () => {
       } catch (error) {
         setLoading(false);
         showAlert({
-          msg: "Link inválido",
+          msg: "Link no válido",
           error: true,
         });
         console.log(error);

@@ -21,10 +21,13 @@ const FormProfile = () => {
     setName(auth.name);
     setSurname(auth.surname);
     setPhone(auth.phone);
+    window.scrollTo(0, 0);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    window.scrollTo(0, 0);
+
     if ([email, stageName, name, surname, phone].includes("")) {
       showAlert({
         msg: "Faltan campos por llenar",

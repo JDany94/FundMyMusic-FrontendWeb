@@ -57,6 +57,7 @@ const FormConcert = () => {
   useEffect(() => {
     handleEnabledSwitchGift(false);
     handleEnabledSwitchImage(false);
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -80,6 +81,7 @@ const FormConcert = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    window.scrollTo(0, 0);
 
     if (!id || enabledSwitchImage) {
       if (flyer === undefined) {
@@ -92,7 +94,7 @@ const FormConcert = () => {
 
       if (!/^image/.test(flyer.type)) {
         showAlert({
-          msg: "Formato de imagen inválido",
+          msg: "Formato de imagen no válido",
           error: true,
         });
         return;

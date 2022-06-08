@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "../images/logo.png";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
@@ -16,9 +16,13 @@ const Singup = () => {
   const [repassword, setRePassword] = useState("");
   const [alert, setAlert] = useState("");
   const [loading, setLoading] = useState(false);
-  const {validName} = useConcerts();
+  const { validName } = useConcerts();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const showAlert = (alert) => {
     setAlert(alert);
@@ -29,6 +33,8 @@ const Singup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    window.scrollTo(0, 0);
+
     if (
       [email, stageName, name, surname, phone, password, repassword].includes(
         ""

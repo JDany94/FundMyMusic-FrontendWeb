@@ -26,6 +26,7 @@ const NewPassword = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const checkToken = async () => {
       setLoading(true);
       try {
@@ -50,6 +51,7 @@ const NewPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    window.scrollTo(0, 0);
 
     if (password.length < 6) {
       setAlert({
@@ -87,9 +89,10 @@ const NewPassword = () => {
     } catch (error) {
       setLoading(false);
       showAlert({
-        msg: error.response.status !== 0
-          ? error.response.data.msg
-          : "Error de conexión",
+        msg:
+          error.response.status !== 0
+            ? error.response.data.msg
+            : "Error de conexión",
         error: true,
       });
       console.log(error);

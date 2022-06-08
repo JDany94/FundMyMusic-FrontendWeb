@@ -13,6 +13,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const loadUserData = async () => {
       setLoading(true);
       const token = localStorage.getItem("x-auth-token");

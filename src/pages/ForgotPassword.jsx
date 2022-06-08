@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "../images/logo.png";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
@@ -10,6 +10,10 @@ const ForgotPassword = () => {
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const showAlert = (alert) => {
     setAlert(alert);
     setTimeout(() => {
@@ -19,10 +23,11 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    window.scrollTo(0, 0);
 
     if (email === "" || email.length < 6) {
       setAlert({
-        msg: "El correo es inválido",
+        msg: "El correo no es válido",
         error: true,
       });
       return;
@@ -44,9 +49,10 @@ const ForgotPassword = () => {
     } catch (error) {
       setLoading(false);
       showAlert({
-        msg: error.response.status !== 0
-          ? error.response.data.msg
-          : "Error de conexión",
+        msg:
+          error.response.status !== 0
+            ? error.response.data.msg
+            : "Error de conexión",
         error: true,
       });
       console.log(error);
