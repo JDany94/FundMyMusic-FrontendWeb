@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
 
   const navigate = useNavigate();
-
+// TODO arreglar el cargando cuando abres despues de un tiempo
   useEffect(() => {
     const authenticateUser = async () => {
       const token = localStorage.getItem("x-auth-token");
