@@ -6,7 +6,7 @@ import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import axios from "axios";
 
 const ConcertsContext = createContext();
-
+// TODO: quitar las funciones que no se usan en frontWeb
 const ConcertsProvider = ({ children }) => {
   const [concerts, setConcerts] = useState([]);
   const [alert, setAlert] = useState({});
