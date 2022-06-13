@@ -12,6 +12,8 @@ const Singin = () => {
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(false);
 
+  // TODO hacer loading parte del provider
+
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();

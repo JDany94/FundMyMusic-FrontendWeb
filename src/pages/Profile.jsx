@@ -12,6 +12,7 @@ const Profile = () => {
 
   const navigate = useNavigate();
 
+  //TODO modificar este useffect porque se estaba llenando mal auth (no hacer get)
   useEffect(() => {
     window.scrollTo(0, 0);
     const loadUserData = async () => {
