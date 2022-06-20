@@ -12,7 +12,7 @@ const Dashboard = () => {
   }, []);
 
   const { msg } = alert;
-
+//TODO actualizar siempre que se cambie de ventana
   if (loading) return <Loading />;
   return (
     <>

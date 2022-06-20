@@ -8,7 +8,6 @@ import Loading from "../components/Loading";
 const NewPassword = () => {
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
-  const [confirmed, setConfirmed] = useState(false);
   const [validToken, setValidToken] = useState(false);
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(false);
@@ -79,13 +78,13 @@ const NewPassword = () => {
         msg: data.msg,
         error: false,
       });
-      setConfirmed(true);
+      setValidToken(false);
       setPassword("");
       setRePassword("");
       setTimeout(() => {
         setAlert({});
-        navigate("/");
-      }, 4000);
+        window.location = "https://fundmymusic.es";
+      }, 3000);
     } catch (error) {
       setLoading(false);
       showAlert({
@@ -144,14 +143,6 @@ const NewPassword = () => {
             className="bg-red-800 mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
           />
         </form>
-      )}
-      {confirmed && (
-        <Link
-          className="block text-center my-5 text-white uppercase text-sm"
-          to="/"
-        >
-          Iniciar Sesión
-        </Link>
       )}
     </>
   );
