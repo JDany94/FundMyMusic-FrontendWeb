@@ -5,12 +5,18 @@ import axiosClient from "../config/axiosClient";
 import Alert from "../components/Alert";
 import Loading from "../components/Loading";
 
+import useAuth from "../hooks/useAuth";
+import useConcerts from "../hooks/useConcerts";
+
 const NewPassword = () => {
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [validToken, setValidToken] = useState(false);
   const [alert, setAlert] = useState({});
   const [loading, setLoading] = useState(false);
+
+  const { singOutAuth } = useAuth();
+  const { singOutConcerts } = useConcerts();
 
   const navigate = useNavigate();
 
@@ -40,8 +46,11 @@ const NewPassword = () => {
         });
         setTimeout(() => {
           setAlert({});
-          navigate("/");
-        }, 4000);
+          singOutAuth();
+          singOutConcerts();
+          localStorage.removeItem("x-auth-token");
+          window.location = "https://fundmymusic.es";
+        }, 3000);
         console.log(error);
       }
     };
@@ -83,6 +92,9 @@ const NewPassword = () => {
       setRePassword("");
       setTimeout(() => {
         setAlert({});
+        singOutAuth();
+        singOutConcerts();
+        localStorage.removeItem("x-auth-token");
         window.location = "https://fundmymusic.es";
       }, 3000);
     } catch (error) {
