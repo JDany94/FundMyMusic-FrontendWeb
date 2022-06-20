@@ -46,9 +46,6 @@ const NewPassword = () => {
         });
         setTimeout(() => {
           setAlert({});
-          singOutAuth();
-          singOutConcerts();
-          localStorage.removeItem("x-auth-token");
           window.location = "https://fundmymusic.es";
         }, 3000);
         console.log(error);

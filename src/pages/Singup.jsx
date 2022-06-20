@@ -7,7 +7,6 @@ import Loading from "../components/Loading";
 import useConcerts from "../hooks/useConcerts";
 import useAuth from "../hooks/useAuth";
 
-
 const Singup = () => {
   const [email, setEmail] = useState("");
   const [stageName, setStageName] = useState("");
@@ -92,22 +91,17 @@ const Singup = () => {
         phone,
         password,
         role: "Artist",
-        //sin validar correo
-        confirmed: 'true',
-        token: 'Confirmed',
+        confirmed: "true",
+        token: "Confirmed",
       };
-      // TODO: poner de nuevo validar correo
+
       const { data } = await axiosClient.post(`/user`, JSON);
-      //setAlert({
-      //  msg: data.msg,
-      //  error: false,
-      //});
+
       localStorage.setItem("x-auth-token", data.token);
 
-      setAuth(data)
+      setAuth(data);
 
       setLoading(false);
-
       setEmail("");
       setStageName("");
       setName("");
@@ -116,13 +110,6 @@ const Singup = () => {
       setPassword("");
       setRePassword("");
       navigate("/dashboard");
-
-
-
-      //setTimeout(() => {
-      //  setAlert({});
-      //  navigate("/");
-      //}, 4000);
     } catch (error) {
       setLoading(false);
       showAlert({
