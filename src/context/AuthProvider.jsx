@@ -5,11 +5,10 @@ import axiosClient from "../config/axiosClient";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true);
   const [auth, setAuth] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
-// TODO arreglar el cargando cuando abres despues de un tiempo
   useEffect(() => {
     const authenticateUser = async () => {
       const token = localStorage.getItem("x-auth-token");
@@ -17,18 +16,22 @@ const AuthProvider = ({ children }) => {
         setLoading(false);
         return;
       }
-
       const config = {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       };
-
       try {
         const { data } = await axiosClient.get("/user/profile", config);
-        setAuth(data);
-        navigate("/dashboard");
+        if (data) {
+          setAuth(data);
+          navigate("/dashboard");
+        } else {
+          setAuth({});
+          localStorage.removeItem("x-auth-token");
+          navigate("/");
+        }
       } catch (error) {
         setAuth({});
       } finally {

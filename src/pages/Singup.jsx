@@ -7,6 +7,8 @@ import Loading from "../components/Loading";
 import useConcerts from "../hooks/useConcerts";
 import useAuth from "../hooks/useAuth";
 
+import { validations } from "../helpers/validations";
+
 const Singup = () => {
   const [email, setEmail] = useState("");
   const [stageName, setStageName] = useState("");
@@ -14,12 +16,11 @@ const Singup = () => {
   const [surname, setSurName] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [repassword, setRePassword] = useState("");
-  const [alert, setAlert] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [rePassword, setRePassword] = useState("");
 
-  const { validName } = useConcerts();
+  const { loading, setLoading, alert, showAlert } = useConcerts();
   const { setAuth } = useAuth();
+  const { validate } = validations();
 
   const navigate = useNavigate();
 
@@ -27,80 +28,31 @@ const Singup = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const showAlert = (alert) => {
-    setAlert(alert);
-    setTimeout(() => {
-      setAlert({});
-    }, 5000);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     window.scrollTo(0, 0);
 
-    if (
-      [email, stageName, name, surname, phone, password, repassword].includes(
-        ""
-      )
-    ) {
-      setAlert({
-        msg: "Todos los campos son obligatorios",
-        error: true,
-      });
-      return;
-    }
-    if (password !== repassword) {
-      setAlert({
-        msg: "Las contraseñas no coinciden",
-        error: true,
-      });
-      return;
-    }
-    if (password.length < 6) {
-      setAlert({
-        msg: "La contraseña debe ser de minimo 6 caracteres",
-        error: true,
-      });
-      return;
-    }
-    if (phone.length < 9) {
-      setAlert({
-        msg: "Teléfono no válido",
-        error: true,
-      });
-      return;
-    }
-    if (!(validName(name) && validName(surname))) {
-      showAlert({
-        msg: "Nombre o Apellidos no válidos",
-        error: true,
-      });
+    const user = {
+      email,
+      stageName,
+      name,
+      surname,
+      phone,
+      password,
+      rePassword,
+      role: "Artist",
+      from: "SingUp",
+    };
+
+    if (!validate(user)) {
       return;
     }
 
-    setAlert({});
     setLoading(true);
-
-    // API
     try {
-      const JSON = {
-        email,
-        stageName,
-        name,
-        surname,
-        phone,
-        password,
-        role: "Artist",
-        confirmed: "true",
-        token: "Confirmed",
-      };
-
-      const { data } = await axiosClient.post(`/user`, JSON);
-
+      const { data } = await axiosClient.post(`/user`, user);
       localStorage.setItem("x-auth-token", data.token);
-
       setAuth(data);
-
       setLoading(false);
       setEmail("");
       setStageName("");
@@ -140,7 +92,6 @@ const Singup = () => {
       <form onSubmit={handleSubmit}>
         <div className="my-5">
           <input
-            id="email"
             type="email"
             placeholder="Email"
             className="w-full mt-3 p-3  rounded-xl bg-gray-800 text-white font-bold"
@@ -150,7 +101,6 @@ const Singup = () => {
         </div>
         <div className="my-5">
           <input
-            id="name"
             type="text"
             placeholder="Nombre Artístico"
             className="w-full mt-3 p-3  rounded-xl bg-gray-800 text-white font-bold"
@@ -160,7 +110,6 @@ const Singup = () => {
         </div>
         <div className="my-5">
           <input
-            id="name"
             type="text"
             placeholder="Nombre"
             className="w-full mt-3 p-3  rounded-xl bg-gray-800 text-white font-bold"
@@ -170,7 +119,6 @@ const Singup = () => {
         </div>
         <div className="my-5">
           <input
-            id="surname"
             type="text"
             placeholder="Apellidos"
             className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
@@ -180,7 +128,6 @@ const Singup = () => {
         </div>
         <div className="my-5">
           <input
-            id="phone"
             type="number"
             placeholder="Teléfono"
             className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
@@ -190,7 +137,6 @@ const Singup = () => {
         </div>
         <div className="my-5">
           <input
-            id="password"
             type="password"
             placeholder="Contraseña"
             className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
@@ -200,11 +146,10 @@ const Singup = () => {
         </div>
         <div className="my-5">
           <input
-            id="re-password"
             type="password"
             placeholder="Confirmar Contraseña"
             className="w-full mt-3 p-3 rounded-xl bg-gray-800 text-white font-bold"
-            value={repassword}
+            value={rePassword}
             onChange={(e) => setRePassword(e.target.value)}
           />
         </div>

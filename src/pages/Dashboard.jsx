@@ -5,14 +5,14 @@ import Alert from "../components/Alert";
 import { useEffect } from "react";
 
 const Dashboard = () => {
-  const { concerts, loading, alert } = useConcerts();
+  const { concerts, loading, alert, getConcerts } = useConcerts();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    getConcerts(true);
   }, []);
 
   const { msg } = alert;
-//TODO actualizar siempre que se cambie de ventana
   if (loading) return <Loading />;
   return (
     <>

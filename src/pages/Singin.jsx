@@ -1,20 +1,22 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/logo.png";
+import apk from "../images/appStore.png";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
 import useAuth from "../hooks/useAuth";
+import useConcerts from "../hooks/useConcerts";
 import Loading from "../components/Loading";
+
+import { validations } from "../helpers/validations";
 
 const Singin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [alert, setAlert] = useState({});
-  const [loading, setLoading] = useState(false);
 
-  // TODO hacer loading parte del provider
-
+  const { loading, setLoading, alert, showAlert } = useConcerts();
   const { setAuth } = useAuth();
+  const { validate } = validations();
 
   const navigate = useNavigate();
 
@@ -22,37 +24,26 @@ const Singin = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const showAlert = (alert) => {
-    setAlert(alert);
-    setTimeout(() => {
-      setAlert({});
-    }, 5000);
-  };
-  setAuth;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     window.scrollTo(0, 0);
 
-    if ([email, password].includes("")) {
-      setAlert({
-        msg: "Todos los campos son obligatorios",
-        error: true,
-      });
+    const user = {
+      email,
+      password,
+      from: "SingIn",
+    };
+
+    if (!validate(user)) {
       return;
     }
-    setAlert({});
-    setLoading(true);
+    user.from = "Artist";
 
+    setLoading(true);
     try {
-      const { data } = await axiosClient.post(`/user/auth`, {
-        email,
-        password,
-        from: "Artist",
-      });
+      const { data } = await axiosClient.post(`/user/auth`, user);
       localStorage.setItem("x-auth-token", data.token);
       setAuth(data);
-
       setLoading(false);
       navigate("/dashboard");
     } catch (error) {
@@ -124,6 +115,12 @@ const Singin = () => {
           ¿Olvidaste la contraseña?
         </Link>
       </nav>
+
+      <div className="flex flex-col items-center my-10">
+        <a href="https://kissbeestore.com/fundmymusic.apk">
+          <img className="rounded-full" src={apk} alt="" />
+        </a>
+      </div>
     </>
   );
 };

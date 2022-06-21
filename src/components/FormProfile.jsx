@@ -4,6 +4,8 @@ import useAuth from "../hooks/useAuth";
 import Alert from "./Alert";
 import Loading from "./Loading";
 
+import { validations } from "../helpers/validations";
+
 const FormProfile = () => {
   const [email, setEmail] = useState("");
   const [stageName, setStageName] = useState("");
@@ -11,9 +13,9 @@ const FormProfile = () => {
   const [surname, setSurname] = useState("");
   const [phone, setPhone] = useState("");
 
+  const { loading, alert, editProfile } = useConcerts();
   const { auth } = useAuth();
-
-  const { showAlert, loading, alert, editProfile, validName } = useConcerts();
+  const { validate } = validations();
 
   useEffect(() => {
     setEmail(auth.email);
@@ -28,40 +30,20 @@ const FormProfile = () => {
     e.preventDefault();
     window.scrollTo(0, 0);
 
-    // TODO: sacar de aqui las validaciones
-    if ([email, stageName, name, surname, phone].includes("")) {
-      showAlert({
-        msg: "Faltan campos por llenar",
-        error: true,
-      });
-      return;
-    }
-
-    if (phone.length < 6) {
-      showAlert({
-        msg: "Teléfono no válido",
-        error: true,
-      });
-      return;
-    }
-
-    if (!(validName(name) && validName(surname))) {
-      showAlert({
-        msg: "Nombre o Apellidos no válidos",
-        error: true,
-      });
-      return;
-    }
-
-    const JSON = {
+    const user = {
       _id: auth._id,
       stageName,
       name,
       surname,
       phone,
+      from: "EditProfile",
     };
 
-    await editProfile(JSON);
+    if (!validate(user)) {
+      return;
+    }
+
+    await editProfile(user);
 
     setEmail("");
     setStageName("");

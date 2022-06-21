@@ -1,49 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import useConcerts from "../hooks/useConcerts";
 import Loading from "../components/Loading";
-import axiosClient from "../config/axiosClient";
 import Swal from "sweetalert2/dist/sweetalert2.all.js";
 
 const Profile = () => {
-  const { singOutAuth, auth, setAuth } = useAuth();
-  const { singOutConcerts, loading, setLoading, showAlert } = useConcerts();
+  const { singOutAuth, auth } = useAuth();
+  const { singOutConcerts, loadUserData, loading } = useConcerts();
 
-  const navigate = useNavigate();
-
-  //TODO modificar este useffect porque se estaba llenando mal auth (no hacer get)
   useEffect(() => {
     window.scrollTo(0, 0);
-    const loadUserData = async () => {
-      setLoading(true);
-      const token = localStorage.getItem("x-auth-token");
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      try {
-        const { data } = await axiosClient.get("/user/profile", config);
-        setAuth(data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        showAlert({
-          msg: "Error de conexión",
-          error: true,
-        });
-        console.log(error);
-        navigate("/dashboard");
-      }
-    };
     loadUserData();
   }, []);
 
