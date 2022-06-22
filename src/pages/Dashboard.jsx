@@ -22,9 +22,11 @@ const Dashboard = () => {
       {msg && <Alert alert={alert} />}
       <div className="bg-gray-900 mt-10 rounded-xl">
         {concerts.length ? (
-          concerts.map((concert) => (
-            <PreviewConcert key={concert._id} concert={concert} />
-          ))
+          concerts
+            .map((concert) => (
+              <PreviewConcert key={concert._id} concert={concert} />
+            ))
+            .reverse()
         ) : (
           <p className=" text-center text-white uppercase font-bold p-5">
             No hay conciertos publicados

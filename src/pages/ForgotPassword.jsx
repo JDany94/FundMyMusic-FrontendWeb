@@ -4,44 +4,40 @@ import logo from "../images/logo.png";
 import Alert from "../components/Alert";
 import axiosClient from "../config/axiosClient";
 import Loading from "../components/Loading";
+import useConcerts from "../hooks/useConcerts";
+
+import { validations } from "../helpers/validations";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [alert, setAlert] = useState({});
-  const [loading, setLoading] = useState(false);
+
+  const { loading, setLoading, alert, showAlert } = useConcerts();
+  const { validate } = validations();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const showAlert = (alert) => {
-    setAlert(alert);
-    setTimeout(() => {
-      setAlert({});
-    }, 5000);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     window.scrollTo(0, 0);
 
-    if (email === "" || email.length < 6) {
-      setAlert({
-        msg: "El correo no es válido",
-        error: true,
-      });
+    const user = {
+      email,
+      from: "ForgotPass",
+    };
+
+    if (!validate(user)) {
       return;
     }
 
-    setAlert({});
     setLoading(true);
-
     try {
       const { data } = await axiosClient.post(`/user/reset-password`, {
         email,
       });
       setLoading(false);
-      setAlert({
+      showAlert({
         msg: data.msg,
         error: false,
       });

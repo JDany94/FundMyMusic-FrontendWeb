@@ -7,9 +7,9 @@ export const validations = () => {
 
   const { showAlert } = useConcerts();
 
-  const validate = (user) => {
-    if (user.from === "SingIn") {
-      const { email, password } = user;
+  const validate = (item) => {
+    if (item.from === "SingIn") {
+      const { email, password } = item;
 
       if ([email, password].includes("")) {
         showAlert({
@@ -28,9 +28,9 @@ export const validations = () => {
       return true;
     }
 
-    if (user.from === "SingUp") {
+    if (item.from === "SingUp") {
       const { email, stageName, name, surname, phone, password, rePassword } =
-        user;
+        item;
 
       if (
         [email, stageName, name, surname, phone, password, rePassword].includes(
@@ -95,8 +95,8 @@ export const validations = () => {
       return true;
     }
 
-    if (user.from === "EditProfile") {
-      const { name, stageName, surname, phone } = user;
+    if (item.from === "EditProfile") {
+      const { name, stageName, surname, phone } = item;
 
       if ([name, stageName, surname, phone].includes("")) {
         showAlert({
@@ -135,44 +135,144 @@ export const validations = () => {
       }
       return true;
     }
-//TODO falta add concert, forgotpass y new pass
-    if (user.from === "AddBalance") {
-      const { balance } = user;
 
-      if ([balance].includes("")) {
-        setMsgAlert("Saldo no válido");
-        setAlert(true);
+    if (item.from === "FormConcert") {
+      const {
+        id,
+        flyer,
+        title,
+        genre,
+        place,
+        date,
+        description,
+        capacity,
+        minimumSales,
+        sold,
+        gift,
+        price,
+        enabledSwitchImage,
+      } = item;
+
+      if (
+        [
+          title,
+          genre,
+          place,
+          date,
+          description,
+          capacity,
+          minimumSales,
+          price,
+        ].includes("")
+      ) {
+        showAlert({
+          msg: "Faltan campos por llenar",
+          error: true,
+        });
         return false;
       }
-      if (parseInt(balance) <= 0) {
-        setMsgAlert("El saldo no puede ser negativo");
-        setAlert(true);
+      if (!id || enabledSwitchImage) {
+        if (flyer === undefined) {
+          showAlert({
+            msg: "Imagen no válida",
+            error: true,
+          });
+          return false;
+        }
+        if (!/^image/.test(flyer.type)) {
+          showAlert({
+            msg: "Formato de imagen no válido",
+            error: true,
+          });
+          return false;
+        }
+        if (flyer.size > 1500000) {
+          showAlert({
+            msg: "La imagen no puede ser mayor a 1.5 MB",
+            error: true,
+          });
+          return false;
+        }
+      }
+      if (id && parseInt(capacity) < parseInt(sold)) {
+        showAlert({
+          msg: `Se han vendido ${sold} entradas, la capacidad no puede ser inferior`,
+          error: true,
+        });
         return false;
       }
-      if (parseInt(balance) > 5000) {
-        setMsgAlert("No se puede recargar mas de 5000€ por recarga");
-        setAlert(true);
+      if (
+        parseInt(capacity) <= 0 ||
+        parseInt(minimumSales) < 0 ||
+        parseInt(price) <= 0
+      ) {
+        showAlert({
+          msg: "Capacidad, precio o ventas minimas incorrectas",
+          error: true,
+        });
         return false;
       }
-      if (!validNumber(balance)) {
-        setMsgAlert("Saldo no válido");
-        setAlert(true);
+      if (parseInt(capacity) < parseInt(minimumSales)) {
+        showAlert({
+          msg: "Las ventas minimas no pueden ser mayores que la capacidad",
+          error: true,
+        });
+        return false;
+      }
+      const today = new Date();
+      const concertDate = new Date(date.split("T")[0]);
+      if (today > concertDate) {
+        showAlert({
+          msg: "Fecha no válida",
+          error: true,
+        });
         return false;
       }
       return true;
     }
 
-    if (user.from === "ForgotPass") {
-      const { email } = user;
+    if (item.from === "ForgotPass") {
+      const { email } = item;
 
       if ([email].includes("")) {
-        setMsgAlert("Todos los campos son obligatorios");
-        setAlert(true);
+        showAlert({
+          msg: "Todos los campos son obligatorios",
+          error: true,
+        });
         return false;
       }
       if (!validEmail(email)) {
-        setMsgAlert("Email no válido");
-        setAlert(true);
+        showAlert({
+          msg: "Email no válido",
+          error: true,
+        });
+        return false;
+      }
+      return true;
+    }
+
+    if (item.from === "NewPass") {
+      const { password, rePassword } = item;
+
+      if ([password, rePassword].includes("")) {
+        showAlert({
+          msg: "Todos los campos son obligatorios",
+          error: true,
+        });
+        return false;
+      }
+      if (password.length < 6) {
+        showAlert({
+          msg: "La contraseña debe tener al menos 6 caracteres",
+          error: true,
+        });
+        return false;
+      }
+      if (password !== rePassword) {
+        showAlert({
+          msg: "Las contraseñas no coinciden",
+          error: true,
+        });
         return false;
       }
       return true;

@@ -6,6 +6,8 @@ import Loading from "./Loading";
 import SwitchFormGift from "./SwitchGift";
 import SwitchFormImage from "./SwitchImage";
 
+import { validations } from "../helpers/validations";
+
 const GENRE = [
   "Bachata",
   "Baladas",
@@ -81,7 +83,6 @@ const FormConcert = () => {
   const [flyer, setFlyer] = useState(undefined);
 
   const {
-    showAlert,
     alert,
     submitConcert,
     concert,
@@ -91,6 +92,8 @@ const FormConcert = () => {
     enabledSwitchImage,
     handleEnabledSwitchImage,
   } = useConcerts();
+
+  const { validate } = validations();
 
   const params = useParams();
 
@@ -123,93 +126,9 @@ const FormConcert = () => {
     e.preventDefault();
     window.scrollTo(0, 0);
 
-    // TODO: sacar de aqui las validaciones
-    if (!id || enabledSwitchImage) {
-      if (flyer === undefined) {
-        showAlert({
-          msg: "Imagen no válida",
-          error: true,
-        });
-        return;
-      }
-
-      if (!/^image/.test(flyer.type)) {
-        showAlert({
-          msg: "Formato de imagen no válido",
-          error: true,
-        });
-        return;
-      }
-
-      if (flyer.size > 1500000) {
-        showAlert({
-          msg: "La imagen no puede ser mayor a 1.5 MB",
-          error: true,
-        });
-        return;
-      }
-    }
-
-    if (id && parseInt(capacity) < parseInt(sold)) {
-      showAlert({
-        msg: `Se han vendido ${sold} entradas, la capacidad no puede ser inferior`,
-        error: true,
-      });
-      return;
-    }
-
-    if (
-      [
-        title,
-        genre,
-        place,
-        date,
-        description,
-        capacity,
-        minimumSales,
-        price,
-      ].includes("")
-    ) {
-      showAlert({
-        msg: "Faltan campos por llenar",
-        error: true,
-      });
-      return;
-    }
-
-    if (
-      parseInt(capacity) <= 0 ||
-      parseInt(minimumSales) < 0 ||
-      parseInt(price) <= 0
-    ) {
-      showAlert({
-        msg: "Capacidad, precio o ventas minimas incorrectas",
-        error: true,
-      });
-      return;
-    }
-
-    if (parseInt(capacity) < parseInt(minimumSales)) {
-      showAlert({
-        msg: "Las ventas minimas no pueden ser mayores que la capacidad",
-        error: true,
-      });
-      return;
-    }
-
-    const today = new Date();
-    const concertDate = new Date(date.split("T")[0]);
-
-    if (today > concertDate) {
-      showAlert({
-        msg: "Fecha no válida",
-        error: true,
-      });
-      return;
-    }
-
-    const JSON = {
+    const concertForm = {
       id,
+      flyer,
       title,
       genre,
       place,
@@ -217,13 +136,19 @@ const FormConcert = () => {
       description,
       capacity,
       minimumSales,
+      sold,
       gift,
       price,
       enabledSwitchImage,
       FlyerPublicId: concert.FlyerPublicId,
+      from: "FormConcert",
     };
 
-    await submitConcert(JSON, flyer);
+    if (!validate(concertForm)) {
+      return;
+    }
+
+    await submitConcert(concertForm, flyer);
 
     setId(null);
     setTitle("");
