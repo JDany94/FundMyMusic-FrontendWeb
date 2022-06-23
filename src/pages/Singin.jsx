@@ -62,6 +62,14 @@ const Singin = () => {
     }
   };
 
+  const handleDownloadApk = async (e) => {
+    try {
+      await axiosClient.get(`/fundmymusic`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const { msg } = alert;
 
   return (
@@ -163,7 +171,7 @@ const Singin = () => {
       </nav>
 
       <div className="flex flex-col items-center my-10">
-        <a href="https://kissbeestore.com/fundmymusic.apk">
+        <a href={`${import.meta.env.VITE_BACKEND_URL}/fundmymusic`}>
           <img className="rounded-full" src={apk} alt="" />
         </a>
       </div>
