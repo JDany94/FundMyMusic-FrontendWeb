@@ -8,6 +8,7 @@ import axios from "axios";
 
 const Profile = () => {
   const [APK, setAPK] = useState(undefined);
+  const [loadAPK, setLoadAPK] = useState(false);
   const { singOutAuth, auth } = useAuth();
   const { singOutConcerts, loadUserData, loading } = useConcerts();
 
@@ -41,6 +42,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     window.scrollTo(0, 0);
+    setLoadAPK(true);
     let formData = new FormData();
     formData.append("file", APK);
     const { data } = await axios({
@@ -60,6 +62,7 @@ const Profile = () => {
       color: "#fff",
       background: "#111827",
     });
+    setLoadAPK(false);
   };
 
   const { msg } = alert;
@@ -159,10 +162,11 @@ const Profile = () => {
               onChange={(e) => setAPK(e.target.files[0])}
             />
           </div>
+          {loadAPK && <Loading />}
           <input
             type="submit"
             value={"Upload APK"}
-            className="bg-red-800 mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
+            className="bg-red-800 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
           />
         </form>
       ) : null}
