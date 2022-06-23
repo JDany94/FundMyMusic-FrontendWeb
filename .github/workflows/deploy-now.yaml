@@ -23,7 +23,7 @@ jobs:
         if: ${{ steps.project.outputs.deployment-enabled == 'true' }}
         uses: actions/checkout@v2
         with:
-          submodules: 'recursive'
+          submodules: "recursive"
 
       - name: Render templates
         if: ${{ steps.project.outputs.deployment-enabled == 'true' }}
@@ -43,6 +43,7 @@ jobs:
           CI: true
           SITE_URL: ${{ steps.project.outputs.site-url }}
           VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
+          VITE_ADMIN: ${{ secrets.VITE_ADMIN }}
         run: |
           npm install
           npm run build

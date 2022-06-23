@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import useConcerts from "../hooks/useConcerts";
 import Loading from "../components/Loading";
 import Swal from "sweetalert2/dist/sweetalert2.all.js";
+import axios from "axios";
 
 const Profile = () => {
+  const [APK, setAPK] = useState(undefined);
   const { singOutAuth, auth } = useAuth();
   const { singOutConcerts, loadUserData, loading } = useConcerts();
 
@@ -33,6 +35,30 @@ const Profile = () => {
         singOutConcerts();
         localStorage.removeItem("x-auth-token");
       }
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    window.scrollTo(0, 0);
+    let formData = new FormData();
+    formData.append("file", APK);
+    const { data } = await axios({
+      url: `${import.meta.env.VITE_BACKEND_URL}/files/apk`,
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      data: formData,
+    });
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: data,
+      showConfirmButton: false,
+      timer: 1500,
+      color: "#fff",
+      background: "#111827",
     });
   };
 
@@ -118,6 +144,28 @@ const Profile = () => {
           </p>
         </div>
       </div>
+      {auth.email === `${import.meta.env.VITE_ADMIN}` ? (
+        <form
+          className="md:w-1/3 bg-gray-900 mt-5 p-3 rounded-xl"
+          encType="multipart/form-data"
+          onSubmit={handleSubmit}
+        >
+          <div className="mb-5">
+            <input
+              type="file"
+              name="file"
+              id="file"
+              className="w-full p-2 mt-2 placeholder-gray-400 rounded-xl bg-gray-800 text-white font-bold"
+              onChange={(e) => setAPK(e.target.files[0])}
+            />
+          </div>
+          <input
+            type="submit"
+            value={"Upload APK"}
+            className="bg-red-800 mb-5 w-full py-3 text-white uppercase font-bold rounded-full hover:cursor-pointer hover:bg-[#830700] transition-colors"
+          />
+        </form>
+      ) : null}
     </div>
   );
 };
