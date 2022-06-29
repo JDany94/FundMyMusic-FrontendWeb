@@ -170,7 +170,7 @@ const Profile = () => {
           />
         </form>
       ) : null}
-    </div>
+    </div> 
   );
 };
 
